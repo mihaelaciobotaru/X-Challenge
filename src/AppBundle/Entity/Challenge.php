@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -42,6 +43,27 @@ class Challenge
      */
     private $createdAt;
 
+    /**
+     * @var User
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="createdChallenges")
+     */
+    private $user;
+
+
+    /**
+     * @var ChallengeAnswer
+     *
+     * @ORM\OneToMany(targetEntity="ChallengeAnswer", mappedBy="challenge")
+     */
+    private $challengeAnswers;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+        $this->challengeAnswers = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -124,5 +146,39 @@ class Challenge
     {
         return $this->createdAt;
     }
+
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return ChallengeAnswer
+     */
+    public function getChallengeAnswers()
+    {
+        return $this->challengeAnswers;
+    }
+
+    /**
+     * @param ChallengeAnswer $challengeAnswers
+     */
+    public function setChallengeAnswers($challengeAnswers)
+    {
+        $this->challengeAnswers = $challengeAnswers;
+    }
+
 }
 

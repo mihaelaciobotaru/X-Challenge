@@ -2,7 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+
 
 /**
  * ChallengeAnswer
@@ -35,6 +37,34 @@ class ChallengeAnswer
      */
     private $createdAt;
 
+
+    /**
+     * @var User
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="challengeAnswers")
+     */
+    private $user;
+
+    /**
+     * @var Challenge
+     * @ORM\JoinColumn(name="challenge_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Challenge", inversedBy="challengeAnswers")
+     */
+    private $challenge;
+
+    /**
+     * @var Vote
+     *
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy="answer")
+     */
+    private $votes;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+        $this->votes = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -92,6 +122,54 @@ class ChallengeAnswer
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return Challenge
+     */
+    public function getChallenge()
+    {
+        return $this->challenge;
+    }
+
+    /**
+     * @param Challenge $challenge
+     */
+    public function setChallenge($challenge)
+    {
+        $this->challenge = $challenge;
+    }
+
+    /**
+     * @return Vote
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * @param Vote $votes
+     */
+    public function setVotes($votes)
+    {
+        $this->votes = $votes;
     }
 }
 

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,19 @@ class Category
      */
     private $createdAt;
 
+    /**
+     * @var Question
+     *
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="category")
+     */
+    private $questions;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+        $this->questions = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -92,6 +106,22 @@ class Category
     public function getCreatedAt()
     {
         return $this->createdAt;
+    }
+
+    /**
+     * @return Question
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    /**
+     * @param Question $questions
+     */
+    public function setQuestions($questions)
+    {
+        $this->questions = $questions;
     }
 }
 

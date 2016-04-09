@@ -69,26 +69,21 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
      */
     private $password;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="gender", type="string", length=1, nullable=true)
-     */
-    private $gender;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthday", type="datetime", nullable=true)
+     * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $birthday;
+    private $createdAt;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created", type="datetime")
+     * @ORM\Column(name="updatedAt", type="datetime")
      */
-    private $created;
+    private $updatedAt;
+
 
     /**
      * @var boolean
@@ -111,17 +106,67 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
      */
     private $token;
 
-    /*private $testScores;
+    /**
+     * @var Test
+     *
+     * @ORM\OneToMany(targetEntity="Test", mappedBy="user")
+     */
+    private $createdTests;
 
-    private $voteScores;
+    /**
+     * @var UserTests
+     *
+     * @ORM\OneToMany(targetEntity="UserTests", mappedBy="users")
+     */
+    private $solvedTests;
 
-    private $activityScores;*/
+    /**
+     * @var ChallengeAnswer
+     *
+     * @ORM\OneToMany(targetEntity="ChallengeAnswer", mappedBy="user")
+     */
+    private $challengeAnswers;
+
+
+    /**
+     * @var Challenge
+     *
+     * @ORM\OneToMany(targetEntity="Challenge", mappedBy="user")
+     */
+    private $createdChallenges;
+
+    /**
+     * @var Vote
+     *
+     * @ORM\OneToMany(targetEntity="Vote", mappedBy="user")
+     */
+    private $votes;
+
+    /**
+     * @var Question
+     *
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="user")
+     */
+    private $questions;
+
+    /**
+     * @var Ranking
+     * @ORM\JoinColumn(name="rank_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="Ranking", inversedBy="user")
+     */
+    private $rank;
 
     public function __construct()
     {
-        $this->created = new \DateTime("now");
+        $this->createdAt = new \DateTime("now");
         $this->isActive = true;
-        $this->interests = new ArrayCollection();
+        $this->createdTests = new  ArrayCollection();
+        $this->createdChallenges = new ArrayCollection();
+        $this->solvedTests = new ArrayCollection();
+        $this->challengeAnswers = new ArrayCollection();
+        $this->votes = new ArrayCollection();
+
+
     }
 
     /**
@@ -370,6 +415,38 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
         $this->type = $type;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return ChallengeAnswer
+     */
+    public function getChallengeAnswers()
+    {
+        return $this->challengeAnswers;
+    }
+
+    /**
+     * @param ChallengeAnswer $challengeAnswers
+     */
+    public function setChallengeAnswers($challengeAnswers)
+    {
+        $this->challengeAnswers = $challengeAnswers;
+    }
+
     public function getRoles()
     {
         $roles = array("ROLE_USER");
@@ -420,6 +497,121 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
     public function setToken($token)
     {
         $this->token = $token;
+    }
+
+    /**
+     * @return Test
+     */
+    public function getCreatedTests()
+    {
+        return $this->createdTests;
+    }
+
+    /**
+     * @param Test $createdTests
+     */
+    public function setCreatedTests($createdTests)
+    {
+        $this->createdTests = $createdTests;
+    }
+
+    /**
+     * @return UserTest
+     */
+    public function getSolvedTests()
+    {
+        return $this->solvedTests;
+    }
+
+    /**
+     * @param UserTest $tests
+     */
+    public function setSolvedTests($solvedTests)
+    {
+        $this->solvedTests = $solvedTests;
+    }
+
+    /**
+     * @return Challenge
+     */
+    public function getCreatedChallenges()
+    {
+        return $this->createdChallenges;
+    }
+
+    /**
+     * @param Challenge $createdChallenges
+     */
+    public function setCreatedChallenges($createdChallenges)
+    {
+        $this->createdChallenges = $createdChallenges;
+    }
+
+    /**
+     * @return Vote
+     */
+    public function getVotes()
+    {
+        return $this->votes;
+    }
+
+    /**
+     * @param Vote $votes
+     */
+    public function setVotes($votes)
+    {
+        $this->votes = $votes;
+    }
+
+
+    /**
+     * @return Question
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
+    }
+
+    /**
+     * @param Question $questions
+     */
+    public function setQuestions($questions)
+    {
+        $this->questions = $questions;
+    }
+
+
+    /**
+     * @return \DateTime
+     */
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    /**
+     * @param \DateTime $updatedAt
+     */
+    public function setUpdatedAt($updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getRank()
+    {
+        return $this->rank;
+    }
+
+    /**
+     * @param mixed $rank
+     */
+    public function setRank($rank)
+    {
+        $this->rank = $rank;
     }
 
     /** @see \Serializable::serialize() */

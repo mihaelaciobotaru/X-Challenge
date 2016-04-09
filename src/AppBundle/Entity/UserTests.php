@@ -31,9 +31,9 @@ class UserTests
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="dateSolved", type="date")
+     * @ORM\Column(name="solved_date", type="date")
      */
-    private $dateSolved;
+    private $solvedDate;
 
     /**
      * @var \DateTime
@@ -49,6 +49,25 @@ class UserTests
      */
     private $userScore;
 
+    /**
+     * @var User
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="solvedTests")
+     */
+    private $user;
+
+    /**
+     * @var Test
+     * @ORM\JoinColumn(name="test_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Test", inversedBy="userTests")
+     */
+    private $test;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
 
     /**
      * Get id
@@ -85,27 +104,19 @@ class UserTests
     }
 
     /**
-     * Set dateSolved
-     *
-     * @param \DateTime $dateSolved
-     *
-     * @return UserTests
+     * @return \DateTime
      */
-    public function setDateSolved($dateSolved)
+    public function getSolvedDate()
     {
-        $this->dateSolved = $dateSolved;
-
-        return $this;
+        return $this->solvedDate;
     }
 
     /**
-     * Get dateSolved
-     *
-     * @return \DateTime
+     * @param \DateTime $solvedDate
      */
-    public function getDateSolved()
+    public function setSolvedDate($solvedDate)
     {
-        return $this->dateSolved;
+        $this->solvedDate = $solvedDate;
     }
 
     /**
@@ -154,6 +165,38 @@ class UserTests
     public function getUserScore()
     {
         return $this->userScore;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+    /**
+     * @return Test
+     */
+    public function getTest()
+    {
+        return $this->test;
+    }
+
+    /**
+     * @param Test $test
+     */
+    public function setTest($test)
+    {
+        $this->test = $test;
     }
 }
 

@@ -35,12 +35,14 @@ class Question
      */
     private $score;
 
+    /*The answerList field will be a JSON containing AnswerText + a boolean value (correct answer/incorrect answer)*/
+
     /**
      * @var string
      *
-     * @ORM\Column(name="answer", type="string", length=255)
+     * @ORM\Column(name="answer", type="string", length=2500)
      */
-    private $answer;
+    private $answerList;
 
     /**
      * @var \DateTime
@@ -49,6 +51,33 @@ class Question
      */
     private $createdAt;
 
+    /**
+     * @var Test
+     * @ORM\JoinColumn(name="test_id", referencedColumnName="id", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Test", inversedBy="questions")
+     */
+    private $test;
+
+
+    /**
+     * @var Category
+     * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="questions")
+     */
+    private $category;
+
+    /**
+     * @var User
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="questions")
+     */
+    private $user;
+
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
 
     /**
      * Get id
@@ -111,25 +140,25 @@ class Question
     /**
      * Set answer
      *
-     * @param string $answer
+     * @param string $answerList
      *
      * @return Question
      */
-    public function setAnswer($answer)
+    public function setAnswerList($answerList)
     {
-        $this->answer = $answer;
+        $this->answerList = $answerList;
 
         return $this;
     }
 
     /**
-     * Get answer
+     * Get answerList
      *
      * @return string
      */
-    public function getAnswer()
+    public function getAnswerList()
     {
-        return $this->answer;
+        return $this->answerList;
     }
 
     /**
@@ -155,5 +184,54 @@ class Question
     {
         return $this->createdAt;
     }
+
+    /**
+     * @return Test
+     */
+    public function getTest()
+    {
+        return $this->test;
+    }
+
+    /**
+     * @param Test $test
+     */
+    public function setTest($test)
+    {
+        $this->test = $test;
+    }
+
+    /**
+     * @return Category
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param Category $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
 }
 

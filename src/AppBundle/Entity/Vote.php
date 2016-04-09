@@ -28,6 +28,32 @@ class Vote
      */
     private $isUp;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdAt", type="date")
+     */
+    private $createdAt;
+
+    /**
+     * @var ChallengeAnswer
+     * @ORM\JoinColumn(name="answer_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="ChallengeAnswer", inversedBy="votes")
+     */
+    private $answer;
+
+    /**
+     * @var User
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="votes")
+     */
+    private $user;
+
+
+    public function _construct()
+    {
+        $this->createdAt = new \DateTime("now");
+    }
 
     /**
      * Get id
@@ -62,5 +88,55 @@ class Vote
     {
         return $this->isUp;
     }
+
+    /**
+     * @return ChallengeAnswer
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
+    }
+
+    /**
+     * @param ChallengeAnswer $answer
+     */
+    public function setAnswer($answer)
+    {
+        $this->answer = $answer;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * @param \DateTime $createdAt
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
 }
 
