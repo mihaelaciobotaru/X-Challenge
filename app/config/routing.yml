@@ -6,3 +6,6 @@ register:
     path: /register
     defaults: { _controller: AppBundle:Registration:register }
 
+question_edit:
+    path: /question/{cid}/{id}
+    defaults: { _controller: AppBundle:Question:edit }
