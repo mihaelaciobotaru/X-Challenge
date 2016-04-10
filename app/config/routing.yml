@@ -5,3 +5,16 @@ app:
 register:
     path: /register
     defaults: { _controller: AppBundle:Registration:register }
+    
+
+delete_question:
+    path: /deleteQuestion/{ cid }/{ id }
+    defaults: { _controller: AppBundle:Question:delete }
+    
+delete_test:
+    path: /deleteTest/{ cid }/{ id }
+    defaults: { _controller: AppBundle:Test:delete }
+    
+delete_challenge:
+    path: /deleteChallenge/{ id }
+    defaults: { _controller: AppBundle:Question:delete }
