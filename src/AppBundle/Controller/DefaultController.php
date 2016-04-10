@@ -9,13 +9,17 @@ use Symfony\Component\HttpFoundation\Request;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/index", name="homepage")
      */
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
+        $title = "Acasa";
+        $user = $this->getUser()->getID();
+        $hasTests = $this->getDoctrine()->getRepository('AppBundle:UserTests')->findOneBy(['user' => $user]);
+
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'), 'title' => $title, 'hasTests' => $hasTests
         ]);
     }
 }

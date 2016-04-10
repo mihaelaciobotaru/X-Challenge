@@ -1,0 +1,12 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+<table class="table table-hover category-table">
+    {% for categ in categories %}
+        <tr>
+            <th>{{ loop.index }}. {{ categ.name }}</th>
+            <td class="btn btn-primary btn-table"><a href="#">Intrebari</a></td>
+            <td class="btn btn-primary btn-table"><a href="#">Teste</a></td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
