@@ -2,6 +2,14 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
+default:
+    path: /index
+    defaults: { _controller: AppBundle:Default:index}
+
 register:
     path: /register
     defaults: { _controller: AppBundle:Registration:register }
+
+category_list:
+    path: /category
+    defaults: { _controller: AppBundle:Category:listCategories }
