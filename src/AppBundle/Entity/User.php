@@ -159,6 +159,7 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
     public function __construct()
     {
         $this->createdAt = new \DateTime("now");
+        $this->updatedAt = new \DateTime("now");
         $this->isActive = true;
         $this->createdTests = new  ArrayCollection();
         $this->createdChallenges = new ArrayCollection();
