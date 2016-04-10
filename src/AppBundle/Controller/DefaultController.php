@@ -15,8 +15,11 @@ class DefaultController extends Controller
     {
         // replace this example code with whatever you need
         $title = "Acasa";
+        $user = $this->getUser()->getID();
+        $hasTests = $this->getDoctrine()->getRepository('AppBundle:UserTests')->findOneBy(['user' => $user]);
+
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'), 'title' => $title
+            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'), 'title' => $title, 'hasTests' => $hasTests
         ]);
     }
 }

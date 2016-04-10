@@ -1,15 +1,17 @@
 {% extends "base.html.twig" %}
 
-{% block title %}Interests{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 {% block content %}
+
+    {% if is_granted('ROLE_APPRENTICE')  %}
     <div class="row">
         <div class="col-md-6">
             <!-- Box Comment -->
             <div class="box box-widget">
                 <div class="box-header with-border">
                     <div class="user-block">
-                        <span class="username"><a href="#">The Hotel Brussels</a></span>
-                        <span class="description">Brussels - Centre (3.4 km)</span>
+                        <span class="username"><a href="#">Provocari</a></span>
+                        <span class="description">Ultimele provocari adaugate</span>
                     </div>
                     <!-- /.user-block -->
                     <div class="box-tools">
@@ -21,14 +23,70 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body" style="display: block;">
-                    <img alt="Photo" src="https://q.bstatic.com/images/hotel/840x460/196/19668382.jpg" class="img-responsive pad">
 
-                    <p>Short description</p>
-                    <button class="btn btn-default btn-xs" type="button"><i class="fa fa-share"></i> Share</button>
-                    <button class="btn btn-primary btn-xs" type="button"><i class="fa fa-bars"></i> Details</button>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading panel-title">
+                            Pentru arborele din figura de mai jos, parcuregerea în inordine este:
+                        </div>
+                        <div class="panel-body">
+                            <img alt="Photo" src="http://www.worldit.info/wp-content/uploads/2009/07/Max-heap.png" class="img-responsive pad">
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn pull-right" type="button">Raspunde</button>
+                    <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-up"></i><strong>+1</strong></button>
+                    <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-down"></i><strong>+1</strong></button>
                 </div>
             </div>
             <!-- /.box -->
         </div>
     </div>
+    {% else %}
+        <form>
+            <div class="form-group">
+                <label for="challenge_title">Titlu provocare</label>
+                <input type="text" class="form-control" id="title_challenge" placeholder="Introduceti titlu...">
+            </div>
+            <div class="form-group">
+                <label for="challenge_body">Textul provocarii</label>
+                <input type="text" class="form-control" id="body_challenge" placeholder="Introduceti provocare...">
+            </div>
+            <button type="submit" class="btn btn-default">Salveaza</button>
+        </form>
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Box Comment -->
+                <div class="box box-widget">
+                    <div class="box-header with-border">
+                        <div class="user-block">
+                            <span class="username"><a href="#">Provocari</a></span>
+                            <span class="description">Ultimele provocari adaugate</span>
+                        </div>
+                        <!-- /.user-block -->
+                        <div class="box-tools">
+                            <button data-widget="collapse" class="btn btn-box-tool" type="button"><i class="fa fa-minus"></i>
+                            </button>
+                            <button data-widget="remove" class="btn btn-box-tool" type="button"><i class="fa fa-times"></i></button>
+                        </div>
+                        <!-- /.box-tools -->
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body" style="display: block;">
+
+                        <div class="panel panel-primary">
+                            <div class="panel-heading panel-title">
+                                Pentru arborele din figura de mai jos, parcuregerea în inordine este:
+                            </div>
+                            <div class="panel-body">
+                                <img alt="Photo" src="http://www.worldit.info/wp-content/uploads/2009/07/Max-heap.png" class="img-responsive pad">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn pull-right" type="button">Raspunde</button>
+                        <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-up"></i><strong>+1</strong></button>
+                        <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-down"></i><strong>+1</strong></button>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}
