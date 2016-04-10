@@ -38,9 +38,9 @@ class QuestionController extends Controller
                 if ($form->isValid()) {
                     $answers = array();
 
-                    for ($i = 1; $i<=5; $i++) {
-                        if ($form->has("answer".$i) && !empty($form->get("answer".$i)->getData())) {
-                            $answers[$form->get("answer".$i)->getData()] = $form->get("check".$i)->getData();
+                    for ($i = 1; $i <= 5; $i++) {
+                        if ($form->has("answer" . $i) && !empty($form->get("answer" . $i)->getData())) {
+                            $answers[$form->get("answer" . $i)->getData()] = $form->get("check" . $i)->getData();
                         }
                     }
                     $question->setAnswerList(json_encode($answers));
@@ -60,9 +60,23 @@ class QuestionController extends Controller
         }
 
         return $this->render("AppBundle:Question:edit.html.twig", array(
-           "title" => $title,
+            "title" => $title,
             "form" => $form->createView(),
         ));
+    }
 
+    public function deleteAction(Request $request, $cid, $id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $question = $em->getRepository("AppBundle:Question")->find($id);
+
+        if($question != null) {
+            $em->remove($question);
+            $em->flush();
+        } else {
+            //toastr::question does not exists
+        }
+
+        return $this->redirect($this->generateUrl('questions', array('cid'=>$cid)));
     }
 }

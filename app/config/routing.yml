@@ -9,3 +9,15 @@ register:
 question_edit:
     path: /question/{cid}/{id}
     defaults: { _controller: AppBundle:Question:edit }
+
+delete_question:
+    path: /deleteQuestion/{ cid }/{ id }
+    defaults: { _controller: AppBundle:Question:delete }
+    
+delete_test:
+    path: /deleteTest/{ cid }/{ id }
+    defaults: { _controller: AppBundle:Test:delete }
+    
+delete_challenge:
+    path: /deleteChallenge/{ id }
+    defaults: { _controller: AppBundle:Question:delete }
