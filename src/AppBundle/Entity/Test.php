@@ -74,7 +74,7 @@ class Test
     /**
      * @var Question
      *
-     * @ORM\OneToMany(targetEntity="Test", mappedBy="test")
+     * @ORM\OneToMany(targetEntity="Question", mappedBy="test")
      */
     private $questions;
 
