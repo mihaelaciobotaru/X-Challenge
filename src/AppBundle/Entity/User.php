@@ -116,7 +116,7 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
     /**
      * @var UserTests
      *
-     * @ORM\OneToMany(targetEntity="UserTests", mappedBy="users")
+     * @ORM\OneToMany(targetEntity="UserTests", mappedBy="user")
      */
     private $solvedTests;
 
