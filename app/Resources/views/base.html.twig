@@ -36,7 +36,9 @@
                 <div id="navbar-collapse" class="collapse navbar-collapse pull-left">
                     <ul class="nav navbar-nav">
                         <li><a href={{ path("category_list") }}>Categorii<span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Intrebari</a></li>
+                        {% if is_granted('ROLE_MASTER') %}
+                        <li><a href={{ path('all_question_list') }}>Intrebari</a></li>
+                        {% endif %}
                         <li><a href="#">Clasament</a></li>
                     </ul>
                     <form role="search" class="navbar-form navbar-left">
@@ -54,16 +56,16 @@
                             <!-- Menu toggle button -->
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
+                                <span class="label label-warning">1</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
+                                <li class="header">You have 1 notification</li>
                                 <li>
                                     <!-- Inner Menu: contains the notifications -->
                                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><ul class="menu" style="overflow: hidden; width: 100%; height: 200px;">
                                             <li><!-- start notification -->
                                                 <a href="#">
-                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                    <i class="fa fa-child"></i>Felicitari! Esti pe locul 55/234!
                                                 </a>
                                             </li>
                                             <!-- end notification -->
@@ -76,16 +78,18 @@
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <!-- The user image in the navbar-->
-                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 {% if app.user.username is defined %}
-                                    <span class="hidden-xs">{{ app.user.username }}</span>
+                                    {% if is_granted('ROLE_APPRENTICE')  %}
+                                        <span class="hidden-xs">Apprentice {{ app.user.username }}</span>
+                                    {% elseif is_granted('ROLE_MASTER') %}
+                                        <span class="hidden-xs">Master {{ app.user.username }}</span>
+                                    {% endif %}
                                 {% endif %}
                             </a>
                                 <!-- Menu Footer-->
-                        <li><a href="#">Profile</a></li>
-                        <li><a href={{ path("security_logout") }}>Sign out</a></li>
+                        <li><a href="#"><i class="fa fa-user"> </i> Profile</a></li>
+                        <li><a href={{ path("security_logout") }}><i class="fa fa-sign-out"></i> Sign out</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-custom-menu -->

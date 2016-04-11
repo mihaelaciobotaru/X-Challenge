@@ -2,7 +2,6 @@
 
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-
     {% if is_granted('ROLE_APPRENTICE')  %}
     <div class="row">
         <div class="col-md-6">
@@ -41,17 +40,22 @@
         </div>
     </div>
     {% else %}
-        <form>
+        <!-- form start -->
+        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'class': 'add-challenge-form'} }) }}
             <div class="form-group">
-                <label for="challenge_title">Titlu provocare</label>
-                <input type="text" class="form-control" id="title_challenge" placeholder="Introduceti titlu...">
+                {{ form_label(form.title) }}
+                {#<label for="challenge_title">Titlu provocare</label>#}
+                {{ form_widget(form.title) }}
+                {#<input type="text" class="form-control" id="title_challenge" placeholder="Introduceti titlu...">#}
             </div>
             <div class="form-group">
-                <label for="challenge_body">Textul provocarii</label>
-                <input type="text" class="form-control" id="body_challenge" placeholder="Introduceti provocare...">
+                {{ form_label(form.text) }}
+                {#<label for="challenge_body">Textul provocarii</label>#}
+                {{ form_widget(form.text) }}
+                {#<input type="text" class="form-control" id="body_challenge" placeholder="Introduceti provocare...">#}
             </div>
-            <button type="submit" class="btn btn-default">Salveaza</button>
-        </form>
+            <button type="submit" class="btn btn-primary">Salveaza</button>
+        {{ form_end(form) }}
         <div class="row">
             <div class="col-md-6">
                 <!-- Box Comment -->

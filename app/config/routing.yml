@@ -10,6 +10,14 @@ register:
     path: /register
     defaults: { _controller: AppBundle:Registration:register }
 
+question_list:
+    path: /question/{cid}
+    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
+
+all_question_list:
+    path: /question
+    defaults: { _controller: AppBundle:Question:listAllQuestions }
+
 question_edit:
     path: /question/{cid}/{id}
     defaults: { _controller: AppBundle:Question:edit }

@@ -1,0 +1,12 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+    <table class="table table-hover category-table">
+        {% for quest in questions %}
+            <tr>
+                <th>{{ loop.index }}. {{ quest.text }}</th>
+                <td class="btn btn-primary btn-table"><a href="#">Editeaza</a></td>
+                <td class="btn btn-primary btn-table"><a href="#">Sterge</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

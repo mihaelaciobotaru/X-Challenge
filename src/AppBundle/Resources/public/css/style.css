@@ -89,3 +89,7 @@ a,a:hover {
 .category-table tbody tr:hover th {
     background-color: #E2E6EB;
 }
+
+.add-challenge-form{
+    margin: 5% 15% 5% 2%;
+}

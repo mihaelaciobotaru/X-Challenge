@@ -4,7 +4,9 @@
     {% for categ in categories %}
         <tr>
             <th>{{ loop.index }}. {{ categ.name }}</th>
-            <td class="btn btn-primary btn-table"><a href="#">Intrebari</a></td>
+            {% if is_granted('ROLE_MASTER') %}
+            <td class="btn btn-primary btn-table"><a href={{ path('question_list',{'cid':categ.id}) }}>Intrebari</a></td>
+            {% endif %}
             <td class="btn btn-primary btn-table"><a href="#">Teste</a></td>
         </tr>
     {% endfor %}

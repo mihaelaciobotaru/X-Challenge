@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\QuestionType;
@@ -10,6 +11,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class QuestionController extends Controller
 {
+    /**
+     * @Route("/question_edit/{cid}/{id}", defaults={ "id" = null } )
+     */
     public function editAction(Request $request, $cid = 1, $id = -1)
     {
         $sc = $this->get('security.authorization_checker');
@@ -79,4 +83,24 @@ class QuestionController extends Controller
 
         return $this->redirect($this->generateUrl('questions', array('cid'=>$cid)));
     }
+
+    public function listQuestionsPerCategoryAction(Request $request, $cid){
+        $category = $this ->getDoctrine()->getRepository('AppBundle:Category')->find($cid);
+        $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->find($cid);
+        $title = "Intrebari din categoria ".$category->getName();
+        return $this->render(
+            'AppBundle:Question:listQuestions.html.twig',
+            array('questions' => $questions, 'title' => $title, 'category' => $category));
+
+    }
+
+    public function listAllQuestionsAction(){
+
+        $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->findBy(array(), array('createdAt'=>'desc'));
+        $title = "Intrebari";
+        return $this->render(
+            'AppBundle:Question:listAllQuestions.html.twig',
+            array('questions' => $questions, 'title' => $title));
+    }
+    
 }
