@@ -69,3 +69,27 @@ a,a:hover {
     margin-top: 10px;
     cursor: pointer;
 }
+
+.category-table{
+    font-size: 18px;
+    width: 75%;
+    margin: auto;
+
+}
+.btn-table{
+    width: 45%;
+    margin-right: 10px;
+}
+.btn-table > a {
+    color: white;
+    font-size: 16px;
+    z-index: 15;
+}
+
+.category-table tbody tr:hover th {
+    background-color: #E2E6EB;
+}
+
+.add-challenge-form{
+    margin: 5% 15% 5% 2%;
+}

@@ -2,13 +2,32 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
+default:
+    path: /index
+    defaults: { _controller: AppBundle:Default:index}
+
 register:
     path: /register
     defaults: { _controller: AppBundle:Registration:register }
-    
+
+all_question_list:
+    path: /question
+    defaults: { _controller: AppBundle:Question:listAllQuestions }
+
+question_edit:
+    path: /question/edit/{cid}/{id}
+    defaults: { _controller: AppBundle:Question:edit }
+
+question_list:
+    path: /question/{cid}
+    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
+
+test_list:
+    path: /test/{cid}
+    defaults: { _controller: AppBundle:Test:listTestsPerCategory }
 
 delete_question:
-    path: /deleteQuestion/{ cid }/{ id }
+    path: /deleteQuestion/{cid}/{id}
     defaults: { _controller: AppBundle:Question:delete }
     
 delete_test:
@@ -18,3 +37,7 @@ delete_test:
 delete_challenge:
     path: /deleteChallenge/{ id }
     defaults: { _controller: AppBundle:Question:delete }
+
+category_list:
+    path: /category
+    defaults: { _controller: AppBundle:Category:listCategories }

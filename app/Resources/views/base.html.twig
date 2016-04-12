@@ -3,7 +3,11 @@
 <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% if title is defined %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title>X-Challenge</title>
+    {% endif %}
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     {% block stylesheets %}
@@ -22,7 +26,7 @@
         <nav class="navbar navbar-static-top">
             <div class="container">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="../../index2.html"><b>Admin</b>LTE</a>
+                    <a class="navbar-brand" href={{ path("default") }}><b>X</b>-Challenge</a>
                     <button data-target="#navbar-collapse" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
                         <i class="fa fa-bars"></i>
                     </button>
@@ -31,20 +35,11 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div id="navbar-collapse" class="collapse navbar-collapse pull-left">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                        <li><a href="#">Link</a></li>
-                        <li class="dropdown">
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                            <ul role="menu" class="dropdown-menu">
-                                <li><a href="#">Action</a></li>
-                                <li><a href="#">Another action</a></li>
-                                <li><a href="#">Something else here</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Separated link</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">One more separated link</a></li>
-                            </ul>
-                        </li>
+                        <li><a href={{ path("category_list") }}>Categorii<span class="sr-only">(current)</span></a></li>
+                        {% if is_granted('ROLE_MASTER') %}
+                        <li><a href={{ path('all_question_list') }}>Intrebari</a></li>
+                        {% endif %}
+                        <li><a href="#">Clasament</a></li>
                     </ul>
                     <form role="search" class="navbar-form navbar-left">
                         <div class="form-group">
@@ -56,57 +51,21 @@
                 <!-- Navbar Right Menu -->
                 <div class="navbar-custom-menu">
                     <ul class="nav navbar-nav">
-                        <!-- Messages: style can be found in dropdown.less-->
-                        <li class="dropdown messages-menu">
-                            <!-- Menu toggle button -->
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <i class="fa fa-envelope-o"></i>
-                                <span class="label label-success">4</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 4 messages</li>
-                                <li>
-                                    <!-- inner menu: contains the messages -->
-                                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><ul class="menu" style="overflow: hidden; width: 100%; height: 200px;">
-                                            <li><!-- start message -->
-                                                <a href="#">
-                                                    <div class="pull-left">
-                                                        <!-- User Image -->
-                                                        <img alt="User Image" class="img-circle" src="../../dist/img/user2-160x160.jpg">
-                                                    </div>
-                                                    <!-- Message title and timestamp -->
-                                                    <h4>
-                                                        Support Team
-                                                        <small><i class="fa fa-clock-o"></i> 5 mins</small>
-                                                    </h4>
-                                                    <!-- The message -->
-                                                    <p>Why not buy a new awesome theme?</p>
-                                                </a>
-                                            </li>
-                                            <!-- end message -->
-                                        </ul><div class="slimScrollBar" style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div></div>
-                                    <!-- /.menu -->
-                                </li>
-                                <li class="footer"><a href="#">See All Messages</a></li>
-                            </ul>
-                        </li>
-                        <!-- /.messages-menu -->
-
                         <!-- Notifications Menu -->
                         <li class="dropdown notifications-menu">
                             <!-- Menu toggle button -->
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <i class="fa fa-bell-o"></i>
-                                <span class="label label-warning">10</span>
+                                <span class="label label-warning">1</span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li class="header">You have 10 notifications</li>
+                                <li class="header">You have 1 notification</li>
                                 <li>
                                     <!-- Inner Menu: contains the notifications -->
                                     <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><ul class="menu" style="overflow: hidden; width: 100%; height: 200px;">
                                             <li><!-- start notification -->
                                                 <a href="#">
-                                                    <i class="fa fa-users text-aqua"></i> 5 new members joined today
+                                                    <i class="fa fa-child"></i>Felicitari! Esti pe locul 55/234!
                                                 </a>
                                             </li>
                                             <!-- end notification -->
@@ -115,87 +74,22 @@
                                 <li class="footer"><a href="#">View all</a></li>
                             </ul>
                         </li>
-                        <!-- Tasks Menu -->
-                        <li class="dropdown tasks-menu">
-                            <!-- Menu Toggle Button -->
-                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <i class="fa fa-flag-o"></i>
-                                <span class="label label-danger">9</span>
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li class="header">You have 9 tasks</li>
-                                <li>
-                                    <!-- Inner menu: contains the tasks -->
-                                    <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 200px;"><ul class="menu" style="overflow: hidden; width: 100%; height: 200px;">
-                                            <li><!-- Task item -->
-                                                <a href="#">
-                                                    <!-- Task title and progress text -->
-                                                    <h3>
-                                                        Design some buttons
-                                                        <small class="pull-right">20%</small>
-                                                    </h3>
-                                                    <!-- The progress bar -->
-                                                    <div class="progress xs">
-                                                        <!-- Change the css width attribute to simulate progress -->
-                                                        <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="20" role="progressbar" style="width: 20%" class="progress-bar progress-bar-aqua">
-                                                            <span class="sr-only">20% Complete</span>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </li>
-                                            <!-- end task item -->
-                                        </ul><div class="slimScrollBar" style="background: rgb(0, 0, 0) none repeat scroll 0% 0%; width: 3px; position: absolute; top: 0px; opacity: 0.4; display: block; border-radius: 7px; z-index: 99; right: 1px;"></div><div class="slimScrollRail" style="width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51) none repeat scroll 0% 0%; opacity: 0.2; z-index: 90; right: 1px;"></div></div>
-                                </li>
-                                <li class="footer">
-                                    <a href="#">View all tasks</a>
-                                </li>
-                            </ul>
-                        </li>
                         <!-- User Account Menu -->
                         <li class="dropdown user user-menu">
                             <!-- Menu Toggle Button -->
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                                <!-- The user image in the navbar-->
-                                <img alt="User Image" class="user-image" src="../../dist/img/user2-160x160.jpg">
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
-                                <span class="hidden-xs">Alexander Pierce</span>
+                                {% if app.user.username is defined %}
+                                    {% if is_granted('ROLE_APPRENTICE')  %}
+                                        <span class="hidden-xs">Apprentice {{ app.user.username }}</span>
+                                    {% elseif is_granted('ROLE_MASTER') %}
+                                        <span class="hidden-xs">Master {{ app.user.username }}</span>
+                                    {% endif %}
+                                {% endif %}
                             </a>
-                            <ul class="dropdown-menu">
-                                <!-- The user image in the menu -->
-                                <li class="user-header">
-                                    <img alt="User Image" class="img-circle" src="../../dist/img/user2-160x160.jpg">
-
-                                    <p>
-                                        Alexander Pierce - Web Developer
-                                        <small>Member since Nov. 2012</small>
-                                    </p>
-                                </li>
-                                <!-- Menu Body -->
-                                <li class="user-body">
-                                    <div class="row">
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Followers</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Sales</a>
-                                        </div>
-                                        <div class="col-xs-4 text-center">
-                                            <a href="#">Friends</a>
-                                        </div>
-                                    </div>
-                                    <!-- /.row -->
-                                </li>
                                 <!-- Menu Footer-->
-                                <li class="user-footer">
-                                    <div class="pull-left">
-                                        <a class="btn btn-default btn-flat" href="#">Profile</a>
-                                    </div>
-                                    <div class="pull-right">
-                                        <a class="btn btn-default btn-flat" href="#">Sign out</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                        <li><a href="#"><i class="fa fa-user"> </i> Profile</a></li>
+                        <li><a href={{ path("security_logout") }}><i class="fa fa-sign-out"></i> Sign out</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-custom-menu -->
@@ -209,14 +103,8 @@
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h1>
-                    Top Navigation
-                    <small>Example 2.0</small>
+                    {% block title %}{{ title }}{% endblock %}
                 </h1>
-                <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li><a href="#">Layout</a></li>
-                    <li class="active">Top Navigation</li>
-                </ol>
             </section>
 
             <!-- Main content -->
@@ -231,7 +119,6 @@
 
 <script type="text/javascript">
     {% block javascript %}
-    {# extra javascript#}
     {% endblock %}
 </script>
 </body>

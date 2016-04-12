@@ -1,0 +1,98 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="col-md-9">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ title }}</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+            <div class="box-body">
+                <div class="form-group">
+                    {{ form_label(form.text) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.text) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.score) }}
+                    <div class="col-sm-10">
+                        {{ form_widget(form.score) }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.answer1) }}
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                {{ form_widget(form.answer1) }}
+                            </div>
+                            <div class="col-sm-1 checkbox icheck">
+                                {{ form_widget(form.check1) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.answer2) }}
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                {{ form_widget(form.answer2) }}
+                            </div>
+                            <div class="col-sm-1 checkbox icheck">
+                                {{ form_widget(form.check2) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.answer3) }}
+                    <div class="col-sm-10">
+                        <div class="row">
+                            <div class="col-sm-11">
+                                {{ form_widget(form.answer3) }}
+                            </div>
+                            <div class="col-sm-1 checkbox icheck">
+                                {{ form_widget(form.check3) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-1"></div>
+                    <div class="col-sm-10">
+                        <a href="" class="btn btn-xs btn-default pull-right">Adauga raspuns</a>
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary col-sm-12" type="submit">Submit</button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+        <!-- /.box -->
+    </div>
+{% endblock %}
+{% block javascript %}
+    $(function () {
+        $('input').iCheck({
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%'
+        });
+    });
+    $(document).ready({
+        $(".checkbox_square-blue").each(function() { 
+            if ($(this).attr("aria-checked") == true) {
+                //$(this).find()
+            }  
+        }); 
+    });
+{% endblock %}

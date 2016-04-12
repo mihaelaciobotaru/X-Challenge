@@ -1,0 +1,26 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+<table class="table table-hover category-table">
+    {% for categ in categories %}
+        <tr>
+            <th>{{ loop.index }}. {{ categ.name }}</th>
+            {% if is_granted('ROLE_MASTER') %}
+            <td onclick = "questionList({{ categ.id }})" class="btn btn-primary btn-table">Intrebari</td>
+            {% endif %}
+            <td onclick ="testList({{ categ.id }})" class="btn btn-primary btn-table">Teste</td>
+        </tr>
+    {% endfor %}
+</table>
+{% endblock %}
+{% block javascript %}
+    function questionList(category) {
+        var red = "{{ path('question_list',{'cid':'categ'}) }}";
+        red = red.replace('categ', category);
+        window.location.href = red;
+    }
+    function testList(category) {
+        var red = "{{ path('test_list',{'cid':'categ'}) }}";
+        red = red.replace('categ', category);
+        window.location.href = red;
+    }
+{% endblock %}
