@@ -5,10 +5,22 @@
         <tr>
             <th>{{ loop.index }}. {{ categ.name }}</th>
             {% if is_granted('ROLE_MASTER') %}
-            <td class="btn btn-primary btn-table"><a href={{ path('question_list',{'cid':categ.id}) }}>Intrebari</a></td>
+            <td onclick = "questionList({{ categ.id }})" class="btn btn-primary btn-table">Intrebari</td>
             {% endif %}
-            <td class="btn btn-primary btn-table"><a href="#">Teste</a></td>
+            <td onclick ="testList({{ categ.id }})" class="btn btn-primary btn-table">Teste</td>
         </tr>
     {% endfor %}
 </table>
+{% endblock %}
+{% block javascript %}
+    function questionList(category) {
+        var red = "{{ path('question_list',{'cid':'categ'}) }}";
+        red = red.replace('categ', category);
+        window.location.href = red;
+    }
+    function testList(category) {
+        var red = "{{ path('test_list',{'cid':'categ'}) }}";
+        red = red.replace('categ', category);
+        window.location.href = red;
+    }
 {% endblock %}

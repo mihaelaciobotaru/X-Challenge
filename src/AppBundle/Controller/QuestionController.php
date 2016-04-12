@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\QuestionType;
 use AppBundle\Entity\Question;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
+use Appbundle\Helper\UrlHelper;
 class QuestionController extends Controller
 {
 
@@ -80,7 +80,11 @@ class QuestionController extends Controller
             //toastr::question does not exists
         }
 
-        return $this->redirect($this->generateUrl('questions', array('cid'=>$cid)));
+        if($cid != -1) {
+            return $this->redirect($this->generateUrl('question_list', array('cid'=>$cid)));
+        } else {
+            return $this->redirect($this->generateUrl('all_question_list'));
+        }
     }
 
     public function listQuestionsPerCategoryAction(Request $request, $cid){

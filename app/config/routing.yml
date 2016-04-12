@@ -22,8 +22,16 @@ question_list:
     path: /question/list/{cid}
     defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
 
+question_list:
+    path: /question/{cid}
+    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
+
+test_list:
+    path: /test/{cid}
+    defaults: { _controller: AppBundle:Test:listTestsPerCategory }
+
 delete_question:
-    path: /deleteQuestion/{ cid }/{ id }
+    path: /deleteQuestion/{cid}/{id}
     defaults: { _controller: AppBundle:Question:delete }
     
 delete_test:

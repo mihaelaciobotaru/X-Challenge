@@ -34,4 +34,15 @@ class TestController extends Controller
        
     }
 
+    public function listTestsPerCategoryAction(Request $request, $cid)
+    {
+        $category = $this ->getDoctrine()->getRepository('AppBundle:Category')->find($cid);
+        $tests = $this->getDoctrine()->getRepository('AppBundle:Test')->findBy(array("category" => $cid));
+        $title = "Teste din categoria ".$category->getName();
+        return $this->render(
+            'AppBundle:Test:listTests.html.twig',
+            array('tests' => $tests, 'title' => $title, 'category' => $category));
+
+    }
+
 }

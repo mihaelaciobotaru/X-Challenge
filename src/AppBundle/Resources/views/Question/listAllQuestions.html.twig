@@ -4,9 +4,23 @@
         {% for quest in questions %}
             <tr>
                 <th>{{ loop.index }}. {{ quest.text }}</th>
-                <td class="btn btn-primary btn-table"><a href="#">Editeaza</a></td>
-                <td class="btn btn-primary btn-table"><a href="#">Sterge</a></td>
+                <td onclick= "editQ({{ quest.category.id }}, {{ quest.id }})"class="btn btn-primary btn-table">Editeaza</td>
+                <td onclick= "deleteQ(-1,{{quest.id}})" class="btn btn-primary btn-table">Sterge</td>
             </tr>
         {% endfor %}
     </table>
+{% endblock %}
+{% block javascript %}
+        function editQ(category, id) {
+            var red = "{{ path('question_edit', {'cid': 'categ', 'id':'qid'}) }}";
+            red = red.replace('categ', category);
+            red = red.replace('qid', id);
+            window.location.href = red;
+        }
+        function deleteQ(category, id) {
+            var red = "{{ path('delete_question', {'cid': 'categ', 'id':'qid'}) }}";
+            red = red.replace('categ', category);
+            red = red.replace('qid', id);
+            window.location.href = red;
+        }
 {% endblock %}
