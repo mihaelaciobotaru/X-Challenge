@@ -5,8 +5,8 @@
         {% for quest in questions %}
             <tr>
                 <th>{{ loop.index }}. {{ quest.text }}</th>
-                <td class="btn btn-primary btn-table"><a href={{ path('question_edit', {'cid':quest.category}, {'id': quest.id}) }}>Editeaza</a></td>
-                <td class="btn btn-primary btn-table"><a href={{ path('delete_question', {'cid':quest.category}, {'id': quest.id}) }}>Sterge</a></td>
+                <td class="btn btn-primary btn-table"><a href={{ path('question_edit', {'cid': quest.category.id, 'id': quest.id}) }}>Editeaza</a></td>
+                <td class="btn btn-primary btn-table"><a href={{ path('delete_question', {'cid': quest.category.id, 'id': quest.id}) }}>Sterge</a></td>
             </tr>
         {% endfor %}
     </table>

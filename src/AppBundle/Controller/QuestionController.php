@@ -11,10 +11,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class QuestionController extends Controller
 {
-    /**
-     * @Route("/question_edit/{cid}/{id}", defaults={ "id" = null } )
-     */
-    public function editAction(Request $request, $cid = 1, $id = -1)
+
+    public function editAction(Request $request, $cid = -1, $id = -1)
     {
         $sc = $this->get('security.authorization_checker');
         if (!$sc->isGranted("ROLE_MASTER")) {
@@ -55,6 +53,7 @@ class QuestionController extends Controller
                     }
                     $em->persist($question);
                     $em->flush();
+                    return $this->redirect($this->generateUrl("question_list", array("cid" => $cid)));
                 } else {
                     //toastr::form is not valid
                 }
@@ -86,7 +85,7 @@ class QuestionController extends Controller
 
     public function listQuestionsPerCategoryAction(Request $request, $cid){
         $category = $this ->getDoctrine()->getRepository('AppBundle:Category')->find($cid);
-        $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->find($cid);
+        $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->findBy(array("category" => $cid));
         $title = "Intrebari din categoria ".$category->getName();
         return $this->render(
             'AppBundle:Question:listQuestions.html.twig',
@@ -98,9 +97,10 @@ class QuestionController extends Controller
 
         $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->findBy(array(), array('createdAt'=>'desc'));
         $title = "Intrebari";
-        return $this->render(
-            'AppBundle:Question:listAllQuestions.html.twig',
-            array('questions' => $questions, 'title' => $title));
+        return $this->render('AppBundle:Question:listAllQuestions.html.twig', array(
+                'questions' => $questions, 'title' => $title
+            )
+        );
     }
     
 }

@@ -9,7 +9,7 @@
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            {{ form_start(form, { 'attr': {'class': 'form-horizontal'} }) }}
+            {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'id': 'addQuest'} }) }}
             <div class="box-body">
                 <div class="form-group">
                     {{ form_label(form.text) }}
@@ -72,7 +72,7 @@
             <!-- /.box-body -->
             <div class="box-footer">
                 <div class="col-sm-12">
-                    <button class="btn btn-primary col-sm-12" type="submit">Submit</button>
+                    <a class="btn btn-primary col-sm-12" onclick="submit()">Submit</a>
                 </div>
             </div>
             {{ form_end(form) }}
@@ -82,17 +82,20 @@
 {% endblock %}
 {% block javascript %}
     $(function () {
-        $('input').iCheck({
+        $('.icheck').iCheck({
             checkboxClass: 'icheckbox_square-blue',
             radioClass: 'iradio_square-blue',
             increaseArea: '20%'
         });
     });
-    $(document).ready({
-        $(".checkbox_square-blue").each(function() { 
-            if ($(this).attr("aria-checked") == true) {
-                //$(this).find()
-            }  
-        }); 
-    });
+    function submit() {
+        $('.icheckbox_square-blue').each(function() { 
+            if ($(this).attr("aria-checked") == "true") {
+                $(this).find("input").val(1);
+            } else {
+                $(this).find("input").val(0);
+            }       
+        });
+        addQuest.submit();
+    }
 {% endblock %}

@@ -10,17 +10,17 @@ register:
     path: /register
     defaults: { _controller: AppBundle:Registration:register }
 
-question_list:
-    path: /question/{cid}
-    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
+question_edit:
+    path: /question/edit/{cid}/{id}
+    defaults: { _controller: AppBundle:Question:edit }
 
 all_question_list:
     path: /question
     defaults: { _controller: AppBundle:Question:listAllQuestions }
 
-question_edit:
-    path: /question/{cid}/{id}
-    defaults: { _controller: AppBundle:Question:edit }
+question_list:
+    path: /question/list/{cid}
+    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
 
 delete_question:
     path: /deleteQuestion/{ cid }/{ id }
@@ -35,5 +35,5 @@ delete_challenge:
     defaults: { _controller: AppBundle:Question:delete }
 
 category_list:
-    path: /category
+    path: /categories
     defaults: { _controller: AppBundle:Category:listCategories }
