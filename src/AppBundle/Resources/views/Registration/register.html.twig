@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Registration Page</title>
+    <title>X-Challenge | Inregistrare</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -14,11 +14,11 @@
 <body class="hold-transition register-page">
 <div class="register-box">
     <div class="register-logo">
-        <a href="../../index2.html"><b>Admin</b>LTE</a>
+        <b>X</b>-Challenge
     </div>
 
     <div class="register-box-body">
-        <p class="login-box-msg">Register a new membership</p>
+        <p class="login-box-msg">Inregistrare ca membru</p>
         {{ form_start(form) }}
             <div class="form-group has-feedback">
                 {{ form_widget(form.username) }}
@@ -41,25 +41,13 @@
             </div>
             {{ form_rest(form) }}
             <div class="row">
-                <div class="col-xs-8">
-                    <div class="checkbox icheck">
-                        <label>
-                            <input type="checkbox"> I agree to the <a href="#">terms</a>
-                        </label>
-                    </div>
-                </div><!-- /.col -->
+
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Inregistreaza</button>
                 </div><!-- /.col -->
             </div>
         {{ form_end(form) }}
-        <div class="social-auth-links text-center">
-            <p>- OR -</p>
-            <a href="#" class="btn btn-block btn-social btn-facebook btn-flat"><i class="fa fa-facebook"></i> Sign up using Facebook</a>
-            <a href="#" class="btn btn-block btn-social btn-google btn-flat"><i class="fa fa-google-plus"></i> Sign up using Google+</a>
-        </div>
-
-        <a href="{{ path('security_login_form') }}" class="text-center">I already have a membership</a>
+        <a href="{{ path('security_login_form') }}" class="text-center">Sunt deja membru</a>
     </div><!-- /.form-box -->
 </div><!-- /.register-box -->
 
