@@ -9,6 +9,9 @@
     {% block stylesheets %}
         {% include 'AppBundle::stylesheet.html.twig' %}
     {% endblock %}
+    {% block javascripts %}
+        {% include 'AppBundle::javascript.html.twig' %}
+    {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body class="hold-transition login-page">
@@ -18,7 +21,9 @@
             <b>X</b>-Challenge
         </div><!-- /.login-logo -->
         {% if error %}
-            <div>{{ error }}</div>
+            {{ toastr("error", "Autentificare", "Datele introduse sunt incorecte") }}
+        {% else %}
+            {{ toastr("success", "Autentificare", "Ati fost delogat cu succes") }}
         {% endif %}
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
@@ -48,9 +53,6 @@
 
         </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->
-{% endblock %}
-{% block javascripts %}
-    {% include 'AppBundle::javascript.html.twig' %}
 {% endblock %}
 </body>
 </html>

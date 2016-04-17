@@ -50,9 +50,11 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['username'];
-        return $userProvider->loadUserByUsername(
-            $username
-        );
+        try {
+            $return = $userProvider->loadUserByUsername($username);
+            return $return;
+        } catch (UsernameNotFoundException $e) {
+        }
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -60,7 +62,6 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
         $password = $credentials['password'];
         $passwordValid = $this->passwordEncoder->isPasswordValid($user, $password);
         if (!$passwordValid) {
-            throw new BadCredentialsException();
         }
         return true;
     }

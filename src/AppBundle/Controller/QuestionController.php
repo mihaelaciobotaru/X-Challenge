@@ -21,7 +21,8 @@ class QuestionController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository("AppBundle:Category")->find($cid);
-
+        $error = "";
+        $question = null;
         if ($category != null) {
             $question = $em->getRepository("AppBundle:Question")->find($id);
 
@@ -33,15 +34,36 @@ class QuestionController extends Controller
                 $title = "Adauga intrebare";
                 $question = new Question();
             }
+
             $form = $this->createForm(QuestionType::class, $question);
+            if ($action == "edit") {
+                $answerList = json_decode($question->getAnswerList());
+                $step = 1;
+                foreach($answerList as $answer=>$check) {
+                    $form->get("answer".$step)->setData($answer);
+                    $form->get("check".$step)->setData($check);
+                    $step++;
+                }
+            }
             if ($request->getMethod() == "POST") {
                 $form->handleRequest($request);
-
-                if ($form->isValid()) {
+                $valid = true;
+                if (empty($form->get("text")->getData())) {
+                    $error = "Continutul este obligatoriu";
+                    $valid = false;
+                } elseif (empty($form->get("score")->getData())) {
+                    $error = "Punctajul este obligatoriu";
+                    $valid = false;
+                } elseif(empty($form->get("answer1")->getData()) || empty($form->get("answer2")->getData())
+                    || empty($form->get("answer3")->getData())) {
+                    $error = "Completati cel putin 3 raspunsuri";
+                    $valid = false;
+                }
+                if ($valid) {
                     $answers = array();
 
                     for ($i = 1; $i <= 5; $i++) {
-                        if ($form->has("answer" . $i) && !empty($form->get("answer" . $i)->getData())) {
+                        if (!empty($form->get("answer" . $i)->getData())) {
                             $answers[$form->get("answer" . $i)->getData()] = $form->get("check" . $i)->getData();
                         }
                     }
@@ -53,18 +75,23 @@ class QuestionController extends Controller
                     }
                     $em->persist($question);
                     $em->flush();
+                    if ($action == "create") {
+                        $this->get('session')->getFlashBag()->add('success', 'Intrebarea a fost adaugata cu succes');
+                    } else {
+                        $this->get('session')->getFlashBag()->add('success', 'Intrebarea a fost editata cu succes');
+                    }
+
                     return $this->redirect($this->generateUrl("question_list", array("cid" => $cid)));
-                } else {
-                    //toastr::form is not valid
                 }
             }
         } else {
-            //toastr::category does not exist
+            $error = "Categoria nu exista";
         }
 
         return $this->render("AppBundle:Question:edit.html.twig", array(
             "title" => $title,
             "form" => $form->createView(),
+            "error" => $error,
         ));
     }
 
@@ -81,6 +108,7 @@ class QuestionController extends Controller
         }
 
         if($cid != -1) {
+            $this->get('session')->getFlashBag()->add('success', 'Intrebarea a fost stearsa cu succes');
             return $this->redirect($this->generateUrl('question_list', array('cid'=>$cid)));
         } else {
             return $this->redirect($this->generateUrl('all_question_list'));
@@ -88,13 +116,16 @@ class QuestionController extends Controller
     }
 
     public function listQuestionsPerCategoryAction(Request $request, $cid){
+
         $category = $this ->getDoctrine()->getRepository('AppBundle:Category')->find($cid);
         $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->findBy(array("category" => $cid));
         $title = "Intrebari din categoria ".$category->getName();
-        return $this->render(
-            'AppBundle:Question:listQuestions.html.twig',
-            array('questions' => $questions, 'title' => $title, 'category' => $category));
 
+        return $this->render('AppBundle:Question:listQuestions.html.twig', array(
+            'questions' => $questions,
+            'title' => $title,
+            'category' => $category,
+        ));
     }
 
     public function listAllQuestionsAction(){

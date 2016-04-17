@@ -232,6 +232,5 @@ class Question
     {
         $this->user = $user;
     }
-
 }
 

@@ -39,7 +39,7 @@ class DefaultController extends Controller
                 }
             }
         return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'), 'title' => $title, 'hasTests' => $hasTests, "form" => $form->createView()
+            'title' => $title, 'hasTests' => $hasTests, "form" => $form->createView()
         ]);
     }
 }
