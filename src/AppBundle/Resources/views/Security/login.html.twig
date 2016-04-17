@@ -19,11 +19,12 @@
     <div class="login-box">
         <div class="login-logo">
             <b>X</b>-Challenge
-        </div><!-- /.login-logo -->
+        </div>
         {% if error %}
             {{ toastr("error", "Autentificare", "Datele introduse sunt incorecte") }}
-        {% else %}
-            {{ toastr("success", "Autentificare", "Ati fost delogat cu succes") }}
+        {% endif %}
+        {% if app.session.flashbag.has('success') %}
+            {{ toastr("success", "Autentificare", app.session.flashbag.get('success').0) }}
         {% endif %}
         <div class="login-box-body">
             <p class="login-box-msg">Sign in to start your session</p>
@@ -39,17 +40,15 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-8">
-
-                    </div><!-- /.col -->
+                    </div>
                     <div class="col-xs-4">
                         <input type="hidden" name="_target_path" value="/account">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">Login</button>
                     </div><!-- /.col -->
                 </div>
             </form>
 
-            <a href="#">I forgot my password</a><br>
-            <a href="{{ path('register') }}" class="text-center">Register a new membership</a>
+            <a href="{{ path('security_register') }}" class="text-center">Inregistreaza-te</a>
 
         </div><!-- /.login-box-body -->
     </div><!-- /.login-box -->

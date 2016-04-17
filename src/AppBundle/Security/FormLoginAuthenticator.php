@@ -50,11 +50,9 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
         $username = $credentials['username'];
-        try {
-            $return = $userProvider->loadUserByUsername($username);
-            return $return;
-        } catch (UsernameNotFoundException $e) {
-        }
+        return $userProvider->loadUserByUsername(
+            $username
+        );
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -62,6 +60,7 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
         $password = $credentials['password'];
         $passwordValid = $this->passwordEncoder->isPasswordValid($user, $password);
         if (!$passwordValid) {
+            throw new BadCredentialsException();
         }
         return true;
     }
@@ -80,12 +79,12 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $request->getSession()->set(Security::AUTHENTICATION_ERROR, $exception);
-        return new RedirectResponse($this->router->generate('security_login_form'));
+        return new RedirectResponse($this->router->generate('security_login'));
     }
 
     public function start(Request $request, AuthenticationException $authException = null)
     {
-        return new RedirectResponse($this->router->generate('security_login_form'));
+        return new RedirectResponse($this->router->generate('security_login'));
     }
 
     public function supportsRememberMe()

@@ -10,13 +10,18 @@
     {% block stylesheets %}
         {% include 'AppBundle::stylesheet.html.twig' %}
     {% endblock %}
+    {% block javascripts %}
+        {% include 'AppBundle::javascript.html.twig' %}
+    {% endblock %}
 </head>
 <body class="hold-transition register-page">
 <div class="register-box">
     <div class="register-logo">
         <b>X</b>-Challenge
     </div>
-
+    {% if app.session.flashbag.has('error') %}
+        {{ toastr("error", "Inregistrare", app.session.flashbag.get('error').0) }}
+    {% endif %}
     <div class="register-box-body">
         <p class="login-box-msg">Inregistrare ca membru</p>
         {{ form_start(form) }}
@@ -41,27 +46,15 @@
             </div>
             {{ form_rest(form) }}
             <div class="row">
-
+                <div class="col-xs-8">
+                </div>
                 <div class="col-xs-4">
-                    <button type="submit" class="btn btn-primary">Inregistreaza</button>
-                </div><!-- /.col -->
+                    <button type="submit" class="btn btn-primary btn-block btn-flat">Register</button>
+                </div>
             </div>
         {{ form_end(form) }}
-        <a href="{{ path('security_login_form') }}" class="text-center">Sunt deja membru</a>
+        <a href="{{ path('security_login') }}" class="text-center">Sunt deja membru</a>
     </div><!-- /.form-box -->
 </div><!-- /.register-box -->
-
-{% block javascripts %}
-    {% include 'AppBundle::javascript.html.twig' %}
-    <script>
-        $(function () {
-            $('input').iCheck({
-                checkboxClass: 'icheckbox_square-blue',
-                radioClass: 'iradio_square-blue',
-                increaseArea: '20%' // optional
-            });
-        });
-    </script>
-{% endblock %}
 </body>
 </html>

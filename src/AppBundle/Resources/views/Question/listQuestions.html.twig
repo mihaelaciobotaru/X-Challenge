@@ -22,9 +22,13 @@
         window.location.href = red;
     }
     function deleteQ(category, id) {
-        var red = "{{ path('delete_question', {'cid': 'categ', 'id':'qid'}) }}";
-        red = red.replace('categ', category);
-        red = red.replace('qid', id);
-        window.location.href = red;
+        bootbox.confirm("Sunteti sigur ca doriti sa stergeti intrebarea?", function(result) {
+            if (result == true) {
+                var red = "{{ path('delete_question', {'cid': 'categ', 'id':'qid'}) }}";
+                red = red.replace('categ', category);
+                red = red.replace('qid', id);
+                window.location.href = red;
+            }
+        });
     }
 {% endblock %}

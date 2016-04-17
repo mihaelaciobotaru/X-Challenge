@@ -2,46 +2,54 @@ app:
     resource: "@AppBundle/Controller/"
     type:     annotation
 
-default:
-    path: /index
+security_register:
+    path: /register
+    defaults: { _controller: AppBundle:Security:register }
+
+security_login:
+    path: /login
+    defaults: { _controller: AppBundle:Security:login }
+
+security_login_auto:
+    path: /login/auto/{username}
+    defaults: { _controller: AppBundle:Security:autoLogin }
+
+security_logout:
+    path: /logout
+    defaults: { _controller: AppBundle:Security:logout }
+
+home:
+    path: /
     defaults: { _controller: AppBundle:Default:index}
 
-register:
-    path: /register
-    defaults: { _controller: AppBundle:Registration:register }
+category_list:
+    path: /categories
+    defaults: { _controller: AppBundle:Category:listCategories }
+
+question_list:
+    path: /questions/{cid}
+    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
 
 question_edit:
     path: /question/edit/{cid}/{id}
     defaults: { _controller: AppBundle:Question:edit }
 
+delete_question:
+    path: /question/delete/{cid}/{id}
+    defaults: { _controller: AppBundle:Question:delete }
+
 all_question_list:
-    path: /question
+    path: /questions
     defaults: { _controller: AppBundle:Question:listAllQuestions }
-
-question_list:
-    path: /question/list/{cid}
-    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
-
-question_list:
-    path: /question/{cid}
-    defaults: { _controller: AppBundle:Question:listQuestionsPerCategory }
 
 test_list:
     path: /test/{cid}
     defaults: { _controller: AppBundle:Test:listTestsPerCategory }
-
-delete_question:
-    path: /deleteQuestion/{cid}/{id}
-    defaults: { _controller: AppBundle:Question:delete }
     
 delete_test:
-    path: /deleteTest/{ cid }/{ id }
+    path: /test/delete/{ cid }/{id}
     defaults: { _controller: AppBundle:Test:delete }
     
 delete_challenge:
-    path: /deleteChallenge/{ id }
+    path: /challenge/delete/{id}
     defaults: { _controller: AppBundle:Question:delete }
-
-category_list:
-    path: /categories
-    defaults: { _controller: AppBundle:Category:listCategories }

@@ -16,7 +16,11 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
+        $sc = $this->get('security.authorization_checker');
+        if (!$sc->isGranted("ROLE_USER")) {
+            return $this->redirect($this->generateUrl("security_login"));
+        }
+
         $title = "Acasa";
         $user = $this->getUser()->getID();
         $hasTests = $this->getDoctrine()->getRepository('AppBundle:UserTests')->findOneBy(['user' => $user]);
@@ -38,7 +42,7 @@ class DefaultController extends Controller
                     //toastr::form is not valid
                 }
             }
-        return $this->render('default/index.html.twig', [
+        return $this->render('AppBundle::index.html.twig', [
             'title' => $title, 'hasTests' => $hasTests, "form" => $form->createView()
         ]);
     }

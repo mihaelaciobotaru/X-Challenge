@@ -4,15 +4,63 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class SecurityController extends Controller
 {
-    /**
-     * @Route("/", name="security_login_form")
-     */
+    public function registerAction(Request $request)
+    {
+        $sc = $this->get('security.authorization_checker');
+        if ($sc->isGranted("ROLE_USER")) {
+            return $this->redirect($this->generateUrl("home"));
+        }
+
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+
+        if ($request->getMethod() == "POST") {
+            $form->handleRequest($request);
+
+            $valid = $form->isValid();
+            if (!$valid) {
+                $this->get('session')->getFlashBag()->add('error', 'Va rugam completati cu atentie toate campurile');
+            }
+            $em = $this->getDoctrine()->getManager();
+            $repo = $em->getRepository("AppBundle:User");
+            if($repo->findOneBy(array("username" => $form->get("username")->getData()))
+                || $repo->findOneBy(array("email" => $form->get("email")->getData()))) {
+                $valid = false;
+                $this->get('session')->getFlashBag()->add('error', 'Username sau Email existent');
+            }
+
+            if ($valid) {
+                $passwordEncoder = $this->container->get('security.password_encoder');
+                $encodedPassword = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+                $user->setPassword($encodedPassword);
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($user);
+                $em->flush();
+                $this->get('session')->getFlashbag()->add('success', 'Cont creat cu succes');
+                return $this->redirectToRoute('security_login');
+            }
+        }
+
+        return $this->render('AppBundle:Security:register.html.twig', array(
+            'form' => $form->createView(),
+        ));
+    }
+
     public function loginAction()
     {
+        $sc = $this->get('security.authorization_checker');
+
+        if ($sc->isGranted("ROLE_USER")) {
+            return $this->redirect($this->generateUrl("home"));
+        }
+
         $helper = $this->get('security.authentication_utils');
         return $this->render('AppBundle:Security:login.html.twig', array(
             // last username entered by the user (if any)
@@ -22,10 +70,8 @@ class SecurityController extends Controller
         ));
     }
 
-    /**
-     * @Route("/login/auto/{username}")
-     */
-    public function autoLogin($username, Request $request)
+
+    public function autoLoginAction($username, Request $request)
     {
         $user = $this->getDoctrine()
             ->getRepository('AppBundle:User')
@@ -64,7 +110,6 @@ class SecurityController extends Controller
      * But, this will never be executed. Symfony will intercept this first
      * and handle the logout automatically. See logout in app/config/security.yml
      *
-     * @Route("/logout", name="security_logout")
      */
     public function logoutAction()
     {
