@@ -1,0 +1,25 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+    <h3>{{ test.title }} - {{ categories[test.category] }}</h3>
+
+    <p><small>{{ users[test.user.id] }}, {{ test.createdAt|date('Y-m-d') }}</small></p>
+
+
+    <table class="table ">
+        {% for quest in questions %}
+            <tr>
+                <th>{{ loop.index }}. {{ quest.text }}</th>
+            </tr>
+            {% for ans,val in answers[quest.id] %}
+                <tr>
+                    {% if val == 1 %}
+                        <td>&emsp;&emsp;<i class="fa fa-check-square-o" aria-hidden="true"></i> &emsp;{{ ans }};</td>
+                    {% else %}
+                        <td>&emsp;&emsp;<i class="fa fa-square-o" aria-hidden="true"></i> &emsp;{{ ans }};</td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        {% endfor %}
+
+    </table>
+{% endblock %}

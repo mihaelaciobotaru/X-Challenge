@@ -45,10 +45,22 @@ all_question_list:
 test_list:
     path: /test/{cid}
     defaults: { _controller: AppBundle:Test:listTestsPerCategory }
-    
+
+test_list_all:
+    path: /test
+    defaults: { _controller: AppBundle:Test:listAllTests}
+
 delete_test:
-    path: /test/delete/{ cid }/{id}
+    path: /test/delete/{cid}/{id}
     defaults: { _controller: AppBundle:Test:delete }
+
+test_generate:
+    path: /test/generate/{cid}
+    defaults: { _controller: AppBundle:Test:generate}
+
+test_show:
+    path: /test/show/{tid}
+    defaults: { _controller: AppBundle:Test:showQuestionsInTest}
     
 delete_challenge:
     path: /challenge/delete/{id}
