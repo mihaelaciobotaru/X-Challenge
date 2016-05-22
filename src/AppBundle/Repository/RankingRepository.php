@@ -10,4 +10,34 @@ namespace AppBundle\Repository;
  */
 class RankingRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getUserInTopForTests($testScore)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select("count(u.id) as no")
+            ->where("u.testScores < :param")
+            ->setParameter("param", $testScore);
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+    public function getUserInTopForVotes($voteScore)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select("count(u.id) as no")
+            ->where("u.voteScores < :param")
+            ->setParameter("param", $voteScore);
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
+    public function getUserInTopForActivity($activityScore)
+    {
+        $query = $this->createQueryBuilder('u')
+            ->select("count(u.id) as no")
+            ->where("u.activityScores < :param")
+            ->setParameter("param", $activityScore);
+
+        return $query->getQuery()->getSingleScalarResult();
+    }
+
 }

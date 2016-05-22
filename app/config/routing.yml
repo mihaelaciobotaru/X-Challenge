@@ -64,5 +64,12 @@ manage_user_activation:
 
 upgrade_user:
   path: /admin/upgradeUser/{id}
-  defaults: { _controller: AppBundle:Admin:updateApprenticeToMaster}
+  defaults: { _controller: AppBundle:Admin:updateApprenticeToMaster }
 
+profile:
+  path: /user/profile/{id}
+  defaults: { _controller: AppBundle:User:getProfileInformation }
+
+editProfile:
+  path: /user/editProfile/{id}
+  defaults: { _controller: AppBundle:User:editProfile}
