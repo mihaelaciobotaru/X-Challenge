@@ -39,11 +39,16 @@ class SecurityController extends Controller
                 $passwordEncoder = $this->container->get('security.password_encoder');
                 $encodedPassword = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
                 $user->setPassword($encodedPassword);
+                if($form->get("type")->getData() == User::TYPE_MASTER) {
+                    $user->setIsActive(false);
+                }
 
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($user);
                 $em->flush();
-                $this->get('session')->getFlashbag()->add('success', 'Cont creat cu succes');
+                if($user->getType() == User::TYPE_MASTER) {
+                    $this->get('session')->getFlashbag()->add('success', 'Cont creat cu succes. Activare in curs de catre administrator.');
+                }
                 return $this->redirectToRoute('security_login');
             }
         }

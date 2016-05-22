@@ -41,6 +41,9 @@
                         {% endif %}
                         <li><a href="#">Teste</a></li>
                         <li><a href="#">Clasament</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path("users") }}">Utilizatori</a></li>
+                        {% endif %}
                     </ul>
                     <form role="search" class="navbar-form navbar-left">
                         <div class="form-group">

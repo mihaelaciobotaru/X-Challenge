@@ -52,5 +52,26 @@ class UserRepository extends EntityRepository implements UserProviderInterface
         
         return $query->getQuery()->getOneOrNullResult();
     }
+
+    public function getUsersPerPage($pageNumber, $numberOfUsers)
+    {
+        $query = $this->createQueryBuilder('u')
+                      ->orderBy("u.id","DESC")
+                      ->setFirstResult($pageNumber * $numberOfUsers)
+                      ->setMaxResults($numberOfUsers);
+
+        return $query->getQuery()->getResult();
+    }
+    
+    public function getUsersByType($type)
+    {
+        $query = $this->createQueryBuilder('u')
+                      ->where("u.type = :param")
+                      ->orderBy("u.id","DESC")
+                      ->setParameter("param", $type);
+        
+        return $query->getQuery()->getResult();
+    }
+
 }
 

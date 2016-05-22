@@ -30,6 +30,7 @@ class UserProvider implements UserProviderInterface
         if (null === $user) {
             throw new UsernameNotFoundException(sprintf('User "%s" not found.', $username));
         }
+        
         return $user;
     }
 

@@ -1,0 +1,65 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+    <div class="container bs-docs-container">
+        <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle"  style="background-color: white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <h4>Tip utilizator <span class="caret"></span></h4>
+            </button>
+                <ul class="dropdown-menu">
+                    <li><a href="{{ path('users',{'type': 1}) }}">Administratori</a></li>
+                    <li><a href="{{ path('users',{'type': 2}) }}">Masters</a></li>
+                    <li><a href="{{ path('users', {'type': 3}) }}">Apprentices</a></li>
+                </ul>
+        </div>
+        <div class="section">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Tabel utilizatori</h3>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tbody><tr>
+                                    <th>ID</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Data</th>
+                                    <th>Actiuni</th>
+                                </tr>
+                                {% set i = 0 %}
+                                {% for user in users %}
+                                    {% set i = i + 1 %}
+                                    <tr>
+                                        <td>{{ i }}</td>
+                                        <td>{{ user.username }} </td>
+                                        <td>{{ user.email }} </td>
+                                        <td>{{ user.createdAt|date("Y-m-d") }}</td>
+                                        {% if is_granted('ROLE_ADMIN') %}
+                                            {% if user.type != 1 %}
+                                                {% if user.isActive == false %}
+                                                    <td><a  href="{{ path('manage_user_activation',{'id': user.id, 'isActive':'true'}) }}" class="btn btn-primary">Activeaza</a></td>
+                                                {% else %}
+                                                    <td><a href="{{ path('manage_user_activation', {'id': user.id, 'isActive':'false'}) }}" class="btn btn-danger">Dezactiveaza</a></td>
+                                                {% endif %}
+                                                {% if user.rank != null %}
+                                                    {% if user.rank.testScores + user.rank.voteScores + user.rank.activityScores < 2000 %}
+                                                        <td><a href="{{ path('upgrade_user', {'id':user.id }) }}" class="btn btn-warning">Avanseaza la Master</a></td>
+                                                    {% endif %}
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box -->
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -20,7 +20,7 @@ security_logout:
 
 home:
     path: /
-    defaults: { _controller: AppBundle:Default:index}
+    defaults: { _controller: AppBundle:Default:index }
 
 category_list:
     path: /categories
@@ -47,9 +47,22 @@ test_list:
     defaults: { _controller: AppBundle:Test:listTestsPerCategory }
     
 delete_test:
-    path: /test/delete/{ cid }/{id}
+    path: /test/delete/{cid}/{id}
     defaults: { _controller: AppBundle:Test:delete }
     
 delete_challenge:
     path: /challenge/delete/{id}
     defaults: { _controller: AppBundle:Question:delete }
+
+users:
+  path: /admin/listUsers/{type}
+  defaults: { _controller: AppBundle:Admin:listUsers, type:2 }
+
+manage_user_activation:
+  path: /admin/manage/{id}/{isActive}
+  defaults: { _controller: AppBundle:Admin:manageUserActivation }
+
+upgrade_user:
+  path: /admin/upgradeUser/{id}
+  defaults: { _controller: AppBundle:Admin:updateApprenticeToMaster}
+
