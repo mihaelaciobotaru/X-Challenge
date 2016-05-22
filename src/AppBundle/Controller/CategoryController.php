@@ -11,12 +11,15 @@ class CategoryController extends Controller
     /**
      * @Route("/category", name="categorii")
      */
-    public function listCategoriesAction(){
+    public function listCategoriesAction()
+    {
         
         $categories = $this->getDoctrine()->getRepository('AppBundle:Category')->findBy(array(), array('name'=>'asc'));
         $title = "Categorii";
-        return $this->render(
-            'AppBundle:Category:listCategories.html.twig',
-            array('categories' => $categories, 'title' => $title));
+
+        return $this->render('AppBundle:Category:listCategories.html.twig', array(
+                'categories' => $categories,
+                'title' => $title
+        ));
     }
 }

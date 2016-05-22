@@ -7,7 +7,7 @@
             <h4>{{ categ.name }}</h4>
             <p>
                 {% if is_granted('ROLE_MASTER') %}
-                    <a  href="{{ path('question_list',{'cid':'categ'}) }}" class="btn btn-primary">Intrebari</a>
+                    <a  href="{{ path('question_list',{'cid': categ.id}) }}" class="btn btn-primary">Intrebari</a>
                 {% endif %}
                 <a href="{{ path('test_list',{'cid':'categ'}) }}" class="btn btn-primary">Teste</a>
             </p>
