@@ -26,7 +26,7 @@ class UserProvider implements UserProviderInterface
     // UserProviderInterface
     public function loadUserByUsername($username)
     {
-        $user = $this->getUserRepository()->findOneBy(array('username' => $username));
+        $user = $this->getUserRepository()->findByUsernameOrEmail($username);
         if (null === $user) {
             throw new UsernameNotFoundException(sprintf('User "%s" not found.', $username));
         }

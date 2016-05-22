@@ -75,7 +75,8 @@ class SecurityController extends Controller
     {
         $user = $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->findOneBy(['username' => $username]);
+            ->findByUserNameOrEmail($username);
+        
         if (!$user) {
             throw $this->createNotFoundException('No user!');
         }
