@@ -11,7 +11,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class QuestionController extends Controller
 {
-
     public function editAction(Request $request, $cid = -1, $id = -1)
     {
         $sc = $this->get('security.authorization_checker');

@@ -3,26 +3,27 @@
     {% if app.session.flashbag.has('success') %}
         {{ toastr("success", "Test generat!", app.session.flashbag.get('success').0) }}
     {% endif %}
-    <a class="btn btn-primary pull-right" href="{{ path('test_generate', {'cid': category.id }) }}">Genereaza un test</a>
     {% if tests is not empty %}
         <table class="table table-hover category-table">
             {% for test in tests %}
                 <tr>
-                    <th>{{ loop.index }}. {{ test.title }}</th>
+                    <td><strong>{{ loop.index }}. {{ test.title }} - {{ categories[test.category] }} </strong><br>
+                        <small>{{ users[test.user.id] }}, {{ test.createdAt|date('Y-m-d') }}</small>
+                    </td>
                     <td onclick="showT({{ test.id }})" class="btn btn-primary btn-table">Vizualizeaza</td>
-                    <td onclick="deleteT({{ category.id }}, {{ test.id }})" class="btn btn-primary btn-table">Sterge</td>
+                    <td onclick="deleteT({{ test.category }}, {{ test.id }})" class="btn btn-primary btn-table">Sterge</td>
                 </tr>
             {% endfor %}
         </table>
     {% else %}
-    <div>Nu exista inca teste pentru aceasta categorie.</div>
+        <div>Nu exista teste.</div>
     {% endif %}
 {% endblock %}
 {% block javascript %}
     function showT(id){
-        var red = "{{ path('test_show', {'tid':'testid' }) }}";
-        red = red.replace('testid', id);
-        window.location.href = red;
+    var red = "{{ path('test_show', {'tid':'testid' }) }}";
+    red = red.replace('testid', id);
+    window.location.href = red;
     }
     function deleteT(category, id) {
     bootbox.confirm("Sunteti sigur ca doriti sa stergeti intrebarea?", function(result) {

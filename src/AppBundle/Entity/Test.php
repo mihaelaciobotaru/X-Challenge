@@ -77,6 +77,13 @@ class Test
      * @ORM\OneToMany(targetEntity="Question", mappedBy="test")
      */
     private $questions;
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="category", type="integer")
+     */
+    private $category;
+
 
 
     public function __construct()
@@ -238,6 +245,22 @@ class Test
     public function setTotalScore($totalScore)
     {
         $this->totalScore = $totalScore;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param int $category
+     */
+    public function setCategory($category)
+    {
+        $this->category = $category;
     }
 }
 
