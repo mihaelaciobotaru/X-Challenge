@@ -47,7 +47,7 @@ test_list:
     defaults: { _controller: AppBundle:Test:listTestsPerCategory }
     
 delete_test:
-    path: /test/delete/{ cid }/{id}
+    path: /test/delete/{cid}/{id}
     defaults: { _controller: AppBundle:Test:delete }
     
 delete_challenge:
@@ -65,3 +65,23 @@ add_answer:
 view_answers:
     path: /challenge/{id}/answers
     defaults: { _controller: AppBundle:Challenge:viewAnswers }
+
+users:
+  path: /admin/listUsers/{type}
+  defaults: { _controller: AppBundle:Admin:listUsers, type:2 }
+
+manage_user_activation:
+  path: /admin/manage/{id}/{isActive}
+  defaults: { _controller: AppBundle:Admin:manageUserActivation }
+
+upgrade_user:
+  path: /admin/upgradeUser/{id}
+  defaults: { _controller: AppBundle:Admin:updateApprenticeToMaster }
+
+profile:
+  path: /user/profile/{id}
+  defaults: { _controller: AppBundle:User:getProfileInformation }
+
+editProfile:
+  path: /user/editProfile/{id}
+  defaults: { _controller: AppBundle:User:editProfile}

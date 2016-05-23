@@ -41,6 +41,9 @@
                         {% endif %}
                         <li><a href="#">Teste</a></li>
                         <li><a href="#">Clasament</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path("users") }}">Utilizatori</a></li>
+                        {% endif %}
                     </ul>
                     <form role="search" class="navbar-form navbar-left">
                         <div class="form-group">
@@ -89,8 +92,8 @@
                                 {% endif %}
                             </a>
                                 <!-- Menu Footer-->
-                        <li><a href="#"><i class="fa fa-user"> </i> Profile</a></li>
-                        <li><a href={{ path("security_logout") }}><i class="fa fa-sign-out"></i> Sign out</a></li>
+                        <li><a href="{{ path("profile", {'id' : app.user.id}) }}"><i class="fa fa-user"> </i> Profile</a></li>
+                        <li><a href= "{{ path("security_logout") }}"><i class="fa fa-sign-out"></i> Sign out</a></li>
                     </ul>
                 </div>
                 <!-- /.navbar-custom-menu -->
