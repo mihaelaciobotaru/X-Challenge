@@ -2,95 +2,189 @@
 
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
-    {% if is_granted('ROLE_APPRENTICE')  %}
     <div class="row">
-        <div class="col-md-6">
-            <!-- Box Comment -->
-            <div class="box box-widget">
-                <div class="box-header with-border">
-                    <div class="user-block">
-                        <span class="username"><a href="#">Provocari</a></span>
-                        <span class="description">Ultimele provocari adaugate</span>
-                    </div>
-                    <!-- /.user-block -->
-                    <div class="box-tools">
-                        <button data-widget="collapse" class="btn btn-box-tool" type="button"><i class="fa fa-minus"></i>
-                        </button>
-                        <button data-widget="remove" class="btn btn-box-tool" type="button"><i class="fa fa-times"></i></button>
-                    </div>
-                    <!-- /.box-tools -->
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body" style="display: block;">
-
-                    <div class="panel panel-primary">
-                        <div class="panel-heading panel-title">
-                            Pentru arborele din figura de mai jos, parcuregerea în inordine este:
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="timeline">
+                    <li class="time-label">
+                        <span class="bg-aqua">Today</span>
+                    </li>
+                    <li id="challenge_add">
+                        <i class="fa fa-envelope bg-blue"></i>
+                        <div class="timeline-item">
+                            <h3 id="challenge_title" class="timeline-header editable" name="title" contenteditable="true" data-placeholder="Title goes here.."></h3>
+                            <div id="challenge_content" class="timeline-body editable" name="content" contenteditable="true"  data-placeholder="Content goes here..">
+                            </div>
+                            <div class="timeline-footer">
+                                <a class="btn btn-primary btn-sm" onclick="addChallenge()">Post</a>
+                            </div>
                         </div>
-                        <div class="panel-body">
-                            <img alt="Photo" src="http://www.worldit.info/wp-content/uploads/2009/07/Max-heap.png" class="img-responsive pad">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary btn pull-right" type="button">Raspunde</button>
-                    <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-up"></i><strong>+1</strong></button>
-                    <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-down"></i><strong>+1</strong></button>
-                </div>
+                    </li>
+                    {% if tDayChallenges is not empty %}
+                        {% for challenge in tDayChallenges %}
+                            <li>
+                                <i class="fa fa-comments bg-blue"></i>
+                                <div class="timeline-item" id="challenge_{{ challenge.id }}">
+                                    <span class="time"><i class="fa fa-clock-o"></i> {{ challenge.createdTime|date("h:i") }}</span>
+                                    <h3 class="timeline-header">{{ challenge.title }}</h3>
+                                    <div class="timeline-body">
+                                        {{ challenge.text }}
+                                    </div>
+                                    <hr/>
+                                    <div class="timeline-body editable hidden" contenteditable="true" data-placeholder="Answer goes here..">
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a class="btn btn-primary btn-xs" onclick="addAnswer($(this))">Add answer</a>
+                                        {% if challenge.challengeAnswers is not empty %}
+                                            <a class="btn btn-warning btn-xs" href="{{ path('view_answers', {'id': challenge.id}) }}">View answers</a>
+                                        {% else %}
+                                            <a id="view_answers" class="btn btn-warning btn-xs hidden" href="{{ path('view_answers', {'id': challenge.id}) }}">View answers</a>
+                                        {% endif %}
+                                        <span class="time pull-right"><i class="fa fa-user"></i> By {{ challenge.user.username }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endif %}
+                    {% for time, challenges in challengesByTime %}
+                        <li class="time-label">
+                            <span class="bg-green">{{ time }}</span>
+                        </li>
+                        {% for challenge in challenges %}
+                            <li>
+                                <i class="fa fa-comments bg-blue"></i>
+                                <div class="timeline-item" id="challenge_{{ challenge.id }}">
+                                    <span class="time"><i class="fa fa-clock-o"></i> {{ challenge.createdTime|date("h:i") }}</span>
+                                    <h3 class="timeline-header">{{ challenge.title }}</h3>
+                                    <div class="timeline-body">
+                                        {{ challenge.text }}
+                                    </div>
+                                    <hr/>
+                                    <div class="timeline-body editable hidden" contenteditable="true" data-placeholder="Answer goes here..">
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a class="btn btn-primary btn-xs" onclick="addAnswer($(this))">Add answer</a>
+                                        {% if challenge.challengeAnswers is not empty %}
+                                            <a class="btn btn-warning btn-xs" href="{{ path('view_answers', {'id': challenge.id}) }}">View answers</a>
+                                        {% else %}
+                                            <a id="view_answers" class="btn btn-warning btn-xs hidden" href="{{ path('view_answers', {'id': challenge.id}) }}">View answers</a>
+                                        {% endif %}
+                                        <span class="time pull-right"><i class="fa fa-user"></i> By {{ challenge.user.username }}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    {% endfor %}
+                    <li>
+                        <i class="fa fa-clock-o bg-gray"></i>
+                    </li>
+                </ul>
             </div>
-            <!-- /.box -->
         </div>
     </div>
-    {% else %}
-        <!-- form start -->
-        {{ form_start(form, { 'attr': {'class': 'form-horizontal', 'class': 'add-challenge-form'} }) }}
-            <div class="form-group">
-                {{ form_label(form.title) }}
-                {#<label for="challenge_title">Titlu provocare</label>#}
-                {{ form_widget(form.title) }}
-                {#<input type="text" class="form-control" id="title_challenge" placeholder="Introduceti titlu...">#}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.text) }}
-                {#<label for="challenge_body">Textul provocarii</label>#}
-                {{ form_widget(form.text) }}
-                {#<input type="text" class="form-control" id="body_challenge" placeholder="Introduceti provocare...">#}
-            </div>
-            <button type="submit" class="btn btn-primary">Salveaza</button>
-        {{ form_end(form) }}
-        <div class="row">
-            <div class="col-md-6">
-                <!-- Box Comment -->
-                <div class="box box-widget">
-                    <div class="box-header with-border">
-                        <div class="user-block">
-                            <span class="username"><a href="#">Provocari</a></span>
-                            <span class="description">Ultimele provocari adaugate</span>
-                        </div>
-                        <!-- /.user-block -->
-                        <div class="box-tools">
-                            <button data-widget="collapse" class="btn btn-box-tool" type="button"><i class="fa fa-minus"></i>
-                            </button>
-                            <button data-widget="remove" class="btn btn-box-tool" type="button"><i class="fa fa-times"></i></button>
-                        </div>
-                        <!-- /.box-tools -->
-                    </div>
-                    <!-- /.box-header -->
-                    <div class="box-body" style="display: block;">
+{% endblock %}
+{% block javascript %}
+    function addChallenge()
+    {
+        var title, content;
+        title = $("h3[name='title']").text();
+        content = $("div[name='content']").text();
 
-                        <div class="panel panel-primary">
-                            <div class="panel-heading panel-title">
-                                Pentru arborele din figura de mai jos, parcuregerea în inordine este:
-                            </div>
-                            <div class="panel-body">
-                                <img alt="Photo" src="http://www.worldit.info/wp-content/uploads/2009/07/Max-heap.png" class="img-responsive pad">
-                            </div>
-                        </div>
-                        <button class="btn btn-primary btn pull-right" type="button">Raspunde</button>
-                        <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-up"></i><strong>+1</strong></button>
-                        <button class="btn btn-success btn-s" type="button"><i class="fa fa-thumbs-o-down"></i><strong>+1</strong></button>
-                    </div>
-                </div>
-                <!-- /.box -->
-            </div>
-        </div>
-    {% endif %}
+        if (title != "" && content != "") {
+            $.ajax({
+                url: "{{ path('add_challenge') }}",
+                method: "POST",
+                data: { title: title, content: content},
+                success: function(data) {
+                    var challenge = data["challenge"];
+                    var li = $("<li>");
+                    {
+                        var i = $("<i>");
+                        i.addClass("fa fa-comments bg-blue");
+                        var div = $("<div>");
+                        div.addClass("timeline-item");
+                        {
+                            var span = $("<span>");
+                            span.addClass("time");
+                            {
+                                var i_time = $("<i>");
+                                i_time.addClass("fa fa-clock-o");
+                            }
+                            span.append(i_time);
+                            span.append(" "+challenge["created_at"]);
+
+                            var h3 = $("<h3>");
+                            h3.addClass("timeline-header");
+                            h3.text(title);
+
+                            var div_timeline = $("<div>");
+                            div_timeline.addClass("timeline-body");
+                            div_timeline.text(content);
+
+                            var div_footer = $("<div>");
+                            div_footer.addClass("timeline-footer");
+                            {
+                                var a = $("<a>");
+                                a.addClass("btn btn-primary btn-xs");
+                                a.text("Add answer");
+                            }
+                            div_footer.append(a);
+                        }
+                        div.append(span);
+                        div.append(h3);
+                        div.append(div_timeline);
+                        div.append(div_footer);
+                    }
+                    li.append(i);
+                    li.append(div);
+                    $("li#challenge_add").after(li);
+                    toastr["success"]("Provocarea a fost adaugata cu succes", "Adaugare provocare");
+                    $("h3[name='title']").text("");
+                    $("div[name='content']").text("");
+                }
+            });
+        } else {
+            bootbox.alert("Va rugam completati ambele campuri!");
+        }
+    }
+
+    function addAnswer(obj)
+    {
+        var timeline = obj.parent().parent();
+        var content = timeline.find(".timeline-body.editable");
+        var challengeId = timeline.attr("id").split("_")[1];
+        if (content.hasClass("hidden")) {
+            content.removeClass("hidden");
+            obj.removeClass("btn-primary").addClass("btn-success");
+            obj.text("Submit");
+        } else {
+            if (content.text() != "") {
+                $.ajax({
+                    url: "{{ path('add_answer') }}",
+                    method: "POST",
+                    data: { challengeId: challengeId, answerContent: content.text() },
+                    success: function(data) {
+                        if (data["error"] == false) {
+                            toastr["success"]("Raspunsul a fost adaugat cu succes", "Adaugare raspuns");
+                            content.text("");
+                            obj.removeClass("btn-success").addClass("btn-primary");
+                            obj.text("Add answer");
+                            timeline.find("#view_answers").removeClass("hidden");
+                        } else {
+                            toastr["error"]("A aparut o eroare", "Adaugare raspuns");
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    $(document).ready(function(){
+        $("[contenteditable]").each(function(){
+            var $element = $(this);
+            if ($element.html().length && !$element.text().trim().length) {
+                $element.empty();
+            }
+        });
+    });
 {% endblock %}

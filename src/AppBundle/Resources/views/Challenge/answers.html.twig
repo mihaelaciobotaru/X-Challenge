@@ -1,0 +1,37 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-widget">
+                <div class="box-header with-border">
+                    <div class="user-block">
+                        <i class="fa fa-trophy" aria-hidden="true" style="font-size: 3.2em"></i>
+                        <span class="username"><a href="#">{{ challenge.title }}</a></span>
+                        <span class="description">By {{ challenge.user.username }} - {{ challenge.createdAt|date("d M Y") }}</span>
+                    </div>
+                </div>
+                <div class="box-body" style="display: block;">
+                    <p>{{ challenge.text }}</p>
+                    <span class="pull-right text-muted">{{ challenge.challengeAnswers|length }} answers</span>
+                </div>
+                <div class="box-footer box-comments" style="display: block;">
+                    {% for answer in challenge.challengeAnswers %}
+                        <div class="box-comment">
+                            <div class="comment-text">
+                                <span class="username">
+                                    <i class="fa fa-user"></i>{{ answer.user.username }}
+                                    <span class="text-muted pull-right">{{ answer.createdAt|date("d M Y") }}</span>
+                                </span>
+                                {{ answer.answer }}
+                                <button class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
+                                <button class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

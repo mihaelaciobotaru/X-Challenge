@@ -10,4 +10,25 @@ namespace AppBundle\Repository;
  */
 class ChallengeRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function getGroupByCreated()
+    {
+        $query = $this->createQueryBuilder('ch')
+                      ->select("ch.createdAt as created")
+                      ->groupBy("ch.createdAt")
+                      ->orderBy("ch.createdAt", "DESC")
+                      ->getQuery();
+
+        return $query->getResult();
+    }
+
+    public function getAllByDate(\DateTime $param)
+    {
+        $query = $this->createQueryBuilder("ch")
+                      ->where("ch.createdAt = :param")
+                      ->setParameters(array("param" => $param))
+                      ->orderBy("ch.createdAt", "DESC")
+                      ->getQuery();
+
+        return $query->getResult();
+    }
 }

@@ -11,9 +11,6 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/index", name="homepage")
-     */
     public function indexAction(Request $request)
     {
         $sc = $this->get('security.authorization_checker');

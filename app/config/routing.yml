@@ -20,7 +20,7 @@ security_logout:
 
 home:
     path: /
-    defaults: { _controller: AppBundle:Default:index}
+    defaults: { _controller: AppBundle:Challenge:index}
 
 category_list:
     path: /categories
@@ -52,4 +52,16 @@ delete_test:
     
 delete_challenge:
     path: /challenge/delete/{id}
-    defaults: { _controller: AppBundle:Question:delete }
+    defaults: { _controller: AppBundle:Challenge:delete }
+
+add_challenge:
+    path: /challenge/add
+    defaults: { _controller: AppBundle:Challenge:add }
+
+add_answer:
+    path: /challenge/answer/add
+    defaults: { _controller: AppBundle:Challenge:addAnswer }
+
+view_answers:
+    path: /challenge/{id}/answers
+    defaults: { _controller: AppBundle:Challenge:viewAnswers }

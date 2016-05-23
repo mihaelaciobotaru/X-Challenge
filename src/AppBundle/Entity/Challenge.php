@@ -32,7 +32,7 @@ class Challenge
     /**
      * @var string
      *
-     * @ORM\Column(name="text", type="string", length=255)
+     * @ORM\Column(name="text", type="string", length=2550)
      */
     private $text;
 
@@ -42,6 +42,14 @@ class Challenge
      * @ORM\Column(name="createdAt", type="date")
      */
     private $createdAt;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="createdTime", type="time")
+     */
+    private $createdTime;
+
 
     /**
      * @var User
@@ -147,6 +155,21 @@ class Challenge
         return $this->createdAt;
     }
 
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedTime()
+    {
+        return $this->createdTime;
+    }
+
+    /**
+     * @param \DateTime $createdTime
+     */
+    public function setCreatedTime($createdTime)
+    {
+        $this->createdTime = $createdTime;
+    }
 
     /**
      * @return User

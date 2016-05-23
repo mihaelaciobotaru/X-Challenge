@@ -93,3 +93,27 @@ a,a:hover {
 .add-challenge-form{
     margin: 5% 15% 5% 2%;
 }
+
+[contenteditable]:empty:before {
+    content: attr(data-placeholder);
+    color: grey;
+    display: inline-block;
+}
+
+.editable {
+    outline: none;
+}
+
+#challenge_title {
+    min-height: 30px;
+}
+
+#challenge_content {
+    min-height: 90px;
+}
+
+.user-block i {
+    float: left;
+    height: 40px;
+    width: 40px;
+}

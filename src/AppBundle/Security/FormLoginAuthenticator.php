@@ -17,7 +17,6 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\Security;
 
@@ -71,7 +70,7 @@ class FormLoginAuthenticator extends AbstractGuardAuthenticator
         $request->getSession()->remove(Security::LAST_USERNAME);
         $targetPath = $request->getSession()->get('_security.'.$providerKey.'.target_path');
         if (!$targetPath) {
-            $targetPath = $this->router->generate('homepage');
+            $targetPath = $this->router->generate('home');
         }
         return new RedirectResponse($targetPath);
     }

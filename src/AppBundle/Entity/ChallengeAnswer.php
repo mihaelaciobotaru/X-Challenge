@@ -26,7 +26,7 @@ class ChallengeAnswer
     /**
      * @var string
      *
-     * @ORM\Column(name="answer", type="string", length=255)
+     * @ORM\Column(name="answer", type="string", length=2550)
      */
     private $answer;
 
