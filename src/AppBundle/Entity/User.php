@@ -598,7 +598,7 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
 
 
     /**
-     * @return mixed
+     * @return Ranking
      */
     public function getRank()
     {
@@ -606,7 +606,7 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
     }
 
     /**
-     * @param mixed $rank
+     * @param Ranking $rank
      */
     public function setRank($rank)
     {

@@ -10,7 +10,8 @@ class UserController extends Controller
 {
     public function getProfileInformationAction(Request $request, $id)
     {
-        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->find($id);
+        $em = $this->getDoctrine()->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
 
         if($user == null)
         {
@@ -31,13 +32,14 @@ class UserController extends Controller
         $topTests = 0;
         $topActivity = 0;
         $topVotes = 0;
-        $tests = $this->getDoctrine()->getManager()->getRepository('AppBundle:UserTests')->getTestsForUser($user->getId());
-        var_dump($tests);
+        $tests = $em->getRepository('AppBundle:UserTests')->getTestsForUser($user->getId());
+        //var_dump($tests);
         if($rank != null)
         {
-            $topTests =  $this->getDoctrine()->getManager()->getRepository('AppBundle:Ranking')->getUserInTopForTests($rank->getTestScores());
-            $topVotes =  $this->getDoctrine()->getManager()->getRepository('AppBundle:Ranking')->getUserInTopForVotes($rank->getVoteScores());
-            $topActivity =  $this->getDoctrine()->getManager()->getRepository('AppBundle:Ranking')->getUserInTopForActivity($rank->getActivityScores());
+            $repo = $em->getRepository('AppBundle:Ranking');
+            $topTests =  $repo->getUserInTopForTests($rank->getTestScores());
+            $topVotes =  $repo->getUserInTopForVotes($rank->getVoteScores());
+            $topActivity =  $repo->getUserInTopForActivity($rank->getActivityScores());
 
         }
         return $this->render('AppBundle:User:getProfileInformation.html.twig', array(

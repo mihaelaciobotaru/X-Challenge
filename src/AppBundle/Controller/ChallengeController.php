@@ -100,14 +100,22 @@ class ChallengeController extends Controller
             $em->persist($challengeAnswer);
 
             $answers = $em->getRepository("AppBundle:ChallengeAnswer")->findBy(array("challenge" => $challenge, "user" => $this->getUser()));
+            $new = false;
             if (empty($answers)) {
                 $rank = $em->getRepository("AppBundle:Ranking")->findOneBy(array("user" => $this->getUser()));
                 if ($rank == null) {
                     $rank = new Ranking();
                     $rank->setUser($this->getUser());
+                    $new = true;
                 }
                 $rank->setActivityScores(1);
                 $em->persist($rank);
+            }
+            if ($new == true) {
+                $user = $this->getUser();
+                $user->setRank($rank);
+                $em->persist($user);
+                $em->flush();
             }
             $em->flush();
             return new JsonResponse(["error" => false]);

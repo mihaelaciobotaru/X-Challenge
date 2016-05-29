@@ -18,7 +18,6 @@ class ChallengeAnswerController extends Controller
         $answerId = intval($request->get("answer_id"));
         $score = intval($request->get("score"));
         $answer = $em->getRepository("AppBundle:ChallengeAnswer")->find($answerId);
-        $rank = $em->getRepository("AppBundle:Ranking")->find($user);
         if (!empty($answerId) && !empty($score)) {
             $vote = $em->getRepository("AppBundle:Vote")->findOneBy(array("answer" => $answer, "user" => $user));
             if ($vote == null) {
@@ -28,14 +27,23 @@ class ChallengeAnswerController extends Controller
             }
             $vote->setIsUp($score);
             $em->persist($vote);
+            $rank = $em->getRepository("AppBundle:Ranking")->findOneBy(array("user" => $answer->getUser()));
+            $new = false;
             if ($rank == null) {
                 $rank = new Ranking();
-                $rank->setUser($user);
+                $rank->setUser($answer->getUser());
+                $new = true;
             }
             $rank->setVoteScores($score);
             $em->persist($rank);
-
             $em->flush();
+
+            if ($new == true) {
+                $user = $answer->getUser();
+                $user->setRank($rank);
+                $em->persist($user);
+                $em->flush();
+            }
 
             return new JsonResponse(["error" => false]);
         } else {
