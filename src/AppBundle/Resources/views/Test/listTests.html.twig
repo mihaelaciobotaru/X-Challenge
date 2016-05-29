@@ -3,20 +3,28 @@
     {% if app.session.flashbag.has('success') %}
         {{ toastr("success", "Test generat!", app.session.flashbag.get('success').0) }}
     {% endif %}
-    <a class="btn btn-primary pull-right" href="{{ path('test_generate', {'cid': category.id }) }}">Genereaza un test</a>
+    {% if app.user is defined and (is_granted('ROLE_MASTER') or is_granted('ROLE_ADMIN')) %}
+        <a class="btn btn-primary pull-right" href="{{ path('test_generate', {'cid': category.id }) }}">Genereaza un test</a>
+    {% endif %}
     {% if tests is not empty %}
         <table class="table table-hover category-table">
             {% for test in tests %}
                 <tr>
                     <th>{{ loop.index }}. {{ test.title }}</th>
-                    <td onclick="showT({{ test.id }})" class="btn btn-primary btn-table">Vizualizeaza</td>
-                    <td onclick="deleteT({{ category.id }}, {{ test.id }})" class="btn btn-primary btn-table">Sterge</td>
+                    {% if is_granted('ROLE_MASTER') or is_granted('ROLE_ADMIN') %}
+                        <td><button onclick="showT({{ test.id }})" class="btn btn-primary ">Vizualizeaza</button></td>
+                        <td><button onclick="deleteT({{ category.id }}, {{ test.id }})" class="btn btn-warning">Sterge</button></td>
+                    {%  endif %}
+                    {% if is_granted('ROLE_APPRENTICE') %}
+                        <td><button class="btn btn-primary">Rezolva</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
     {% else %}
     <div>Nu exista inca teste pentru aceasta categorie.</div>
     {% endif %}
+    <a href="{{ path('category_list') }}">Inapoi la categorii</a>
 {% endblock %}
 {% block javascript %}
     function showT(id){
@@ -25,7 +33,7 @@
         window.location.href = red;
     }
     function deleteT(category, id) {
-    bootbox.confirm("Sunteti sigur ca doriti sa stergeti intrebarea?", function(result) {
+    bootbox.confirm("Sunteti sigur ca doriti sa stergeti testul?", function(result) {
     if (result == true) {
     var red = "{{ path('delete_test', {'cid': 'categ', 'id':'qid'}) }}";
     red = red.replace('categ', category);

@@ -4,8 +4,8 @@
         {% for quest in questions %}
             <tr>
                 <th>{{ loop.index }}. {{ quest.text }}</th>
-                <td onclick= "editQ({{ quest.category.id }}, {{ quest.id }})"class="btn btn-primary btn-table">Editeaza</td>
-                <td onclick= "deleteQ(-1,{{quest.id}})" class="btn btn-primary btn-table">Sterge</td>
+                <td><button onclick= "editQ({{ quest.category.id }}, {{ quest.id }})"class="btn btn-primary">Editeaza</button></td>
+                <td><button onclick= "deleteQ(-1,{{quest.id}})" class="btn btn-warning">Sterge</button></td>
             </tr>
         {% endfor %}
     </table>

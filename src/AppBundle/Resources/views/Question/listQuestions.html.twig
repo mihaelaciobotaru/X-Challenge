@@ -10,11 +10,12 @@
         {% for quest in questions %}
             <tr>
                 <th>{{ loop.index }}. {{ quest.text }}</th>
-                <td onclick="editQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-primary btn-table">Editeaza</td>
-                <td onclick="deleteQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-primary btn-table">Sterge</td>
+                <td><button onclick="editQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-primary">Editeaza</button</td>
+                <td><button onclick="deleteQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-warning">Sterge</button></td>
             </tr>
         {% endfor %}
     </table>
+    <a href="{{ path('category_list') }}">Inapoi la categorii</a>
 {% endblock %}
 {% block javascript %}
     function editQ(category, id) {
