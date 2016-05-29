@@ -2,6 +2,13 @@
 
 {% block title %}{{ title }}{% endblock %}
 {% block content %}
+    {% if app.user.type == 2 %}
+        {% set upscore = 2 %}
+        {% set downscore = -2 %}
+    {% else %}
+        {% set upscore = 1 %}
+        {% set downscore = -1 %}
+    {% endif %}
     <div class="row">
         <div class="row">
             <div class="col-md-12">
@@ -47,8 +54,8 @@
                                                     {% set up = "default" %}
                                                     {% set down = "danger" %}
                                                 {% endif %}
-                                                <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, -1)"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
-                                                <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, 1)"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
+                                                <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, {{ downscore }})"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
+                                                <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, {{ upscore }})"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
                                                 <br><br>
                                                     <span class="username pull-right">
                                                         <i class="fa fa-user"></i> By {{ answer.user.username }}
@@ -114,8 +121,8 @@
                                                         {% set up = "default" %}
                                                         {% set down = "danger" %}
                                                     {% endif %}
-                                                    <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, -1)"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
-                                                    <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, 1)"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
+                                                    <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, {{ downscore }})"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
+                                                    <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, {{ upscore }})"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
                                                     <br><br>
                                                     <span class="username pull-right">
                                                         <i class="fa fa-user"></i> By {{ answer.user.username }}

@@ -35,8 +35,15 @@
                                     {% set up = "default" %}
                                     {% set down = "danger" %}
                                 {% endif %}
-                                <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, -1)"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
-                                <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, 1)"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
+                                {% if app.user.type == 2 %}
+                                    {% set upscore = 2 %}
+                                    {% set downscore = -2 %}
+                                {% else %}
+                                    {% set upscore = 1 %}
+                                    {% set downscore = -1 %}
+                                {% endif %}
+                                <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, {{ downscore }})"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
+                                <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, {{ upscore }})"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
                             </div>
                         </div>
                     {% endfor %}
