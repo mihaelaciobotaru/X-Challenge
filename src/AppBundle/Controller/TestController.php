@@ -168,4 +168,43 @@ class TestController extends Controller
         );
 
     }
+
+    public function takeTestAction($tid, Request $request){
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($tid);
+        $title = $test->getTitle();
+        $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->findBy(array("test" => $tid));
+        $allquestions = array();
+        $answers = array();
+        foreach($questions as $q){
+            $answers[$q->getID()] = json_decode($q->getAnswerList(), true);
+            $allquestions[$q->getID()] = $q->getText();
+        }
+        $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findAll();
+        $categno = array();
+        foreach($category as $c){
+            $categno[$c->getID()] = $c->getName();
+        }
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+        $userno = array();
+        foreach($users as $u){
+            $username = $u->getFirstName()." ".$u->getLastName();
+            $userno[$u->getID()] = $username;
+        }
+//        print_r($allquestions);
+//        print_r($answers);
+        $score = 0;
+//        foreach($_GET as $q => $a){
+//            $qid = array_search($q, $allquestions);
+//            $aboutq = $this->getDoctrine()->getRepository('AppBundle:Question')->find($qid));
+//            $ca = array_search(1, answers[$qid]);
+//            if($ca == $a)
+//                $score = $score + $aboutq->getScore();
+//        }
+
+        
+        return $this->render('AppBundle:Test:takeTest.html.twig',
+            array( 'questions' => $questions, 'test' => $test, 'answers' => $answers, 'title' => $title, 'categories' => $categno, 'users' => $userno
+            ));
+
+    }
 }

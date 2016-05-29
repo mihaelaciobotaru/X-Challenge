@@ -7,6 +7,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 
 class TestType extends AbstractType
@@ -24,6 +25,9 @@ class TestType extends AbstractType
                                                 'label_attr' => array('class' => 'col-sm-2 control-label')))
             ->add('noOfQuestions', IntegerType::class, array("attr" => array("class" => "form-control"), "label"=>"Numar de intrebari",
                                                 'label_attr' => array('class' => 'col-sm-2 control-label')))
+            ->add('answer', TextareaType::Class, array("attr" => array("class" => "form-control"), "label" => "Raspuns 1",
+                                                'label_attr' => array('class' => 'col-sm-2 control-label'), "mapped" => false))
+            ->add('check', CheckboxType::Class, array("mapped" => false, "required" => false))
         ;
     }
    

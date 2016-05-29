@@ -61,6 +61,10 @@ test_generate:
 test_show:
     path: /test/show/{tid}
     defaults: { _controller: AppBundle:Test:showQuestionsInTest}
+
+take_test:
+    path: /test/take/{tid}
+    defaults: { _controller: AppBundle:Test:takeTest}
     
 delete_challenge:
     path: /challenge/delete/{id}

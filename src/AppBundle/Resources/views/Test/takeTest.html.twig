@@ -1,0 +1,61 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="col-md-9">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ test.title }} - {{ categories[test.category] }}</h3>
+                <p><small>{{ users[test.user.id] }}, {{ test.createdAt|date('Y-m-d') }}</small></p>
+            </div>
+            {#{% if error %}#}
+                {#{{ toastr("error", "Adaugare intrebare", error) }}#}
+            {#{% endif %}#}
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form id="takeTest">
+            <div class="box-body">
+
+                <table>
+                {% for quest in questions %}
+                   <tr>
+                       <th>&emsp;<label class="taketestlabels">{{ loop.index }}. {{ quest.text }}</label></th>
+                   </tr>
+                    {% for ans,val in answers[quest.id] %}
+                        <tr>
+                            <td>&emsp;&emsp;<input type="checkbox" name="{{ quest.text }}" value="{{ ans }}">&emsp;{{ ans }}</td>
+                        </tr>
+                    {% endfor %}
+
+                {% endfor %}
+                </table>
+            </div>
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <a class="btn btn-primary col-sm-12" onclick="submit()">Submit</a>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+    function submit() {
+        var questions = 0;
+        $('.taketestlabels').each(function(){
+            questions++;
+        });
+        var count = 0;
+        $('input[type=checkbox]:checked').each(function(){
+            count++;
+        });
+
+    takeTest.submit();
+
+    }
+
+{% endblock %}
+
+
+
