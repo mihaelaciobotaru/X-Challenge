@@ -31,6 +31,8 @@ class UserController extends Controller
         $topTests = 0;
         $topActivity = 0;
         $topVotes = 0;
+        $tests = $this->getDoctrine()->getManager()->getRepository('AppBundle:UserTests')->getTestsForUser($user->getId());
+        var_dump($tests);
         if($rank != null)
         {
             $topTests =  $this->getDoctrine()->getManager()->getRepository('AppBundle:Ranking')->getUserInTopForTests($rank->getTestScores());
