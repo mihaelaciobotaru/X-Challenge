@@ -18,15 +18,25 @@
                 </div>
                 <div class="box-footer box-comments" style="display: block;">
                     {% for answer in challenge.challengeAnswers %}
-                        <div class="box-comment">
+                        <div id="answer_{{ answer.id }}" class="box-comment">
                             <div class="comment-text">
                                 <span class="username">
                                     <i class="fa fa-user"></i>{{ answer.user.username }}
                                     <span class="text-muted pull-right">{{ answer.createdAt|date("d M Y") }}</span>
                                 </span>
                                 {{ answer.answer }}
-                                <button class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
-                                <button class="btn btn-default btn-xs pull-right" type="button"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
+                                {% set voted = getVote(answer, app.user) %}
+                                {% set up = "default" %}
+                                {% set down = "default" %}
+                                {% if voted == 1 %}
+                                    {% set up = "primary" %}
+                                    {% set down = "default" %}
+                                {% elseif voted == -1 %}
+                                    {% set up = "default" %}
+                                    {% set down = "danger" %}
+                                {% endif %}
+                                <button class="btn btn-{{ down }} btn-xs pull-right downvote" onclick="vote({{ answer.id }}, -1)"><i class="fa fa-thumbs-o-down"></i> Downvote</button>
+                                <button class="btn btn-{{ up }} btn-xs pull-right upvote" onclick="vote({{ answer.id }}, 1)"><i class="fa fa-thumbs-o-up"></i> Upvote</button>
                             </div>
                         </div>
                     {% endfor %}
@@ -34,4 +44,38 @@
             </div>
         </div>
     </div>
+{% endblock %}
+{% block javascript %}
+    function vote(answer_id, vote)
+    {
+        $.ajax({
+            url: "{{ path('vote_answer') }}",
+            method: "POST",
+            data: { answer_id: answer_id, score: vote },
+            success: function(data) {
+                if (data.error == false) {
+                    var answer = $("#answer_"+answer_id);
+                    var up_vote = answer.find(".upvote");
+                    var down_vote = answer.find(".downvote");
+                    if (vote == 1) {
+                        up_vote.removeClass("btn-default");
+                        up_vote.addClass("btn-primary");
+                        if (down_vote.hasClass("btn-danger")) {
+                            down_vote.removeClass("btn-danger");
+                            down_vote.addClass("btn-default");
+                        }
+                    } else if (vote == -1) {
+                        down_vote.removeClass("btn-default");
+                        down_vote.addClass("btn-danger");
+                        if (up_vote.hasClass("btn-primary")) {
+                            up_vote.removeClass("btn-primary");
+                            up_vote.addClass("btn-default");
+                        }
+                    }
+                } else {
+                    toastr["error"]("A aparut o eroare! Va rugam reincercati mai tarziu!", "Voteaza raspuns");
+                }
+            }
+        });
+    }
 {% endblock %}

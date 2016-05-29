@@ -86,14 +86,16 @@
                                 {% if app.user.username is defined %}
                                     {% if is_granted('ROLE_APPRENTICE')  %}
                                         <span class="hidden-xs">Apprentice {{ app.user.username }}</span>
-                                    {% elseif is_granted('ROLE_MASTER') %}
+                                     {% elseif is_granted('ROLE_MASTER') %}
                                         <span class="hidden-xs">Master {{ app.user.username }}</span>
                                     {% endif %}
                                 {% endif %}
                             </a>
                                 <!-- Menu Footer-->
-                        <li><a href="{{ path("profile", {'id' : app.user.id}) }}"><i class="fa fa-user"> </i> Profile</a></li>
-                        <li><a href= "{{ path("security_logout") }}"><i class="fa fa-sign-out"></i> Sign out</a></li>
+                        {% if is_granted('ROLE_USER') %}
+                            <li><a href="{{ path("profile", {'id' : app.user.id}) }}"><i class="fa fa-user"> </i> Profile</a></li>
+                            <li><a href= "{{ path("security_logout") }}"><i class="fa fa-sign-out"></i> Sign out</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <!-- /.navbar-custom-menu -->

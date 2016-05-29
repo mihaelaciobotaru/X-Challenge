@@ -166,8 +166,6 @@ class User implements UserInterface, AdvancedUserInterface ,\Serializable
         $this->solvedTests = new ArrayCollection();
         $this->challengeAnswers = new ArrayCollection();
         $this->votes = new ArrayCollection();
-
-
     }
 
     /**

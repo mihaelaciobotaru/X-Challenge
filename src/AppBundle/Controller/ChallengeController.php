@@ -7,11 +7,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use AppBundle\Entity\Challenge;
 use AppBundle\Entity\ChallengeAnswer;
+use AppBundle\Entity\Ranking;
 
 class ChallengeController extends Controller
 {
     public function indexAction(Request $request)
     {
+        $sc = $this->get('security.authorization_checker');
+        if (!$sc->isGranted("ROLE_USER")) {
+            return $this->redirect($this->generateUrl("security_login"));
+        }
         $em = $this->getDoctrine()->getManager();
         $title = "Challenges";
         $repo = $em->getRepository("AppBundle:Challenge");
@@ -93,6 +98,17 @@ class ChallengeController extends Controller
             $challengeAnswer->setChallenge($challenge);
 
             $em->persist($challengeAnswer);
+
+            $answers = $em->getRepository("AppBundle:ChallengeAnswer")->findBy(array("challenge" => $challenge, "user" => $this->getUser()));
+            if (empty($answers)) {
+                $rank = $em->getRepository("AppBundle:Ranking")->findOneBy(array("user" => $this->getUser()));
+                if ($rank == null) {
+                    $rank = new Ranking();
+                    $rank->setUser($this->getUser());
+                }
+                $rank->setActivityScores(1);
+                $em->persist($rank);
+            }
             $em->flush();
             return new JsonResponse(["error" => false]);
         } else {
@@ -104,6 +120,7 @@ class ChallengeController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $challenge = $em->getRepository("AppBundle:Challenge")->find($id);
+
 
         if ($challenge != null) {
             return $this->render("AppBundle:Challenge:answers.html.twig", array(

@@ -49,6 +49,13 @@ class Ranking
      */
     private $user;
 
+    public function __construct()
+    {
+        $this->testScores = 0;
+        $this->voteScores = 0;
+        $this->activityScores = 0;
+    }
+
     /**
      * Get id
      *
@@ -92,7 +99,7 @@ class Ranking
      */
     public function setVoteScores($voteScores)
     {
-        $this->voteScores = $voteScores;
+        $this->voteScores += $voteScores;
 
         return $this;
     }
@@ -116,7 +123,7 @@ class Ranking
      */
     public function setActivityScores($activityScores)
     {
-        $this->activityScores = $activityScores;
+        $this->activityScores += $activityScores;
 
         return $this;
     }

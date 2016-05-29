@@ -24,7 +24,7 @@ class Vote
     /**
      * @var bool
      *
-     * @ORM\Column(name="isUp", type="boolean")
+     * @ORM\Column(name="isUp", type="integer")
      */
     private $isUp;
 
@@ -50,7 +50,7 @@ class Vote
     private $user;
 
 
-    public function _construct()
+    public function __construct()
     {
         $this->createdAt = new \DateTime("now");
     }
@@ -68,7 +68,7 @@ class Vote
     /**
      * Set isUp
      *
-     * @param boolean $isUp
+     * @param int $isUp
      *
      * @return Vote
      */
@@ -82,7 +82,7 @@ class Vote
     /**
      * Get isUp
      *
-     * @return bool
+     * @return int
      */
     public function getIsUp()
     {

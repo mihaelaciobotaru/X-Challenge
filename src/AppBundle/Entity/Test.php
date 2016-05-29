@@ -200,7 +200,7 @@ class Test
     }
 
     /**
-     * @return TestQuestions
+     * @return Question
      */
     public function getQuestions()
     {
@@ -208,7 +208,7 @@ class Test
     }
 
     /**
-     * @param TestQuestions $questions
+     * @param Question $questions
      */
     public function setQuestions($questions)
     {

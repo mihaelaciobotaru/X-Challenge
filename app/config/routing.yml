@@ -97,3 +97,7 @@ profile:
 editProfile:
   path: /user/editProfile/{id}
   defaults: { _controller: AppBundle:User:editProfile}
+
+vote_answer:
+  path: /answer/vote
+  defaults: { _controller: AppBundle:ChallengeAnswer:vote }
