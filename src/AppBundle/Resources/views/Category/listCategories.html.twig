@@ -3,10 +3,10 @@
     <div class="container bs-docs-container">
         <div class="bs-docs-section">
     {% for categ in categories %}
-        <div id="callout-navbar-breakpoint" class="bs-callout bs-callout-info" style="background-color: white">
-            <h4>{{ categ.name }}</h4>
-            <p>
-                {% if is_granted('ROLE_MASTER') %}
+        <div id="callout-navbar-breakpoint" class="bs-callout bs-callout-info col-md-12" style="background-color: white">
+            <h4 class="col-md-4">{{ categ.name }}</h4>
+            <p class="col-md-8">
+                {% if is_granted('ROLE_MASTER') or is_granted('ROLE_ADMIN') %}
                     <a  href="{{ path('question_list',{'cid': categ.id}) }}" class="btn btn-primary">Intrebari</a>
                 {% endif %}
                 <a href="{{ path('test_list',{'cid': categ.id}) }}" class="btn btn-primary">Teste</a>

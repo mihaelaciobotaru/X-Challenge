@@ -91,8 +91,9 @@
                                     {% endif %}
                                 {% endif %}
                             </a>
-                                <!-- Menu Footer-->
-                        <li><a href="{{ path("profile", {'id' : app.user.id}) }}"><i class="fa fa-user"> </i> Profile</a></li>
+                            {%if app.user %}    <!-- Menu Footer-->
+                                <li><a href="{{ path("profile", {'id' : app.user.id}) }}"><i class="fa fa-user"> </i> Profile</a></li>
+                            {% endif %}
                         <li><a href= "{{ path("security_logout") }}"><i class="fa fa-sign-out"></i> Sign out</a></li>
                     </ul>
                 </div>

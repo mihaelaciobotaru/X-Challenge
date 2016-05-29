@@ -10,8 +10,13 @@
                     <td><strong>{{ loop.index }}. {{ test.title }} - {{ categories[test.category] }} </strong><br>
                         <small>{{ users[test.user.id] }}, {{ test.createdAt|date('Y-m-d') }}</small>
                     </td>
-                    <td onclick="showT({{ test.id }})" class="btn btn-primary btn-table">Vizualizeaza</td>
-                    <td onclick="deleteT({{ test.category }}, {{ test.id }})" class="btn btn-primary btn-table">Sterge</td>
+                    {% if is_granted('ROLE_MASTER') or is_granted('ROLE_ADMIN') %}
+                        <td><button onclick="showT({{ test.id }})" class="btn btn-primary">Vizualizeaza</button></td>
+                        <td><button onclick="deleteT({{ test.category }}, {{ test.id }})" class="btn btn-warning">Sterge</button></td>
+                    {% endif %}
+                    {% if is_granted('ROLE_APPRENTICE') %}
+                        <td><button class="btn btn-primary">Rezolva</button></td>
+                    {% endif %}
                 </tr>
             {% endfor %}
         </table>
@@ -26,7 +31,7 @@
     window.location.href = red;
     }
     function deleteT(category, id) {
-    bootbox.confirm("Sunteti sigur ca doriti sa stergeti intrebarea?", function(result) {
+    bootbox.confirm("Sunteti sigur ca doriti sa stergeti testul?", function(result) {
     if (result == true) {
     var red = "{{ path('delete_test', {'cid': 'categ', 'id':'qid'}) }}";
     red = red.replace('categ', category);

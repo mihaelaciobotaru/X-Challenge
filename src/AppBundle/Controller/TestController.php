@@ -18,7 +18,12 @@ class TestController extends Controller
         $em = $this->getDoctrine()->getManager();
         $test = $em->getRepository("AppBundle:Test")->find($id);
         if ($test != null) {
-
+            $questions = $test->getQuestions();
+            
+            foreach ($questions as &$value) {
+                $question = $em->getRepository("AppBundle:Question")->find($value->getId());
+                $question->setTest(null);
+            }
                 $em->remove($test);
                 $em->flush();
 
