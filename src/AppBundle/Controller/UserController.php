@@ -33,14 +33,12 @@ class UserController extends Controller
         $topActivity = 0;
         $topVotes = 0;
         $tests = $em->getRepository('AppBundle:UserTests')->getTestsForUser($user->getId());
-        //var_dump($tests);
-        if($rank != null)
-        {
+
+        if($rank != null){
             $repo = $em->getRepository('AppBundle:Ranking');
             $topTests =  $repo->getUserInTopForTests($rank->getTestScores());
             $topVotes =  $repo->getUserInTopForVotes($rank->getVoteScores());
             $topActivity =  $repo->getUserInTopForActivity($rank->getActivityScores());
-
         }
         return $this->render('AppBundle:User:getProfileInformation.html.twig', array(
             'title' => 'Profil',
@@ -48,7 +46,8 @@ class UserController extends Controller
             'type' => $type,
             'topTests' => $topTests,
             'topVotes' => $topVotes,
-            'topActivity' => $topActivity
+            'topActivity' => $topActivity,
+            'testList' => $tests
         ));
     }
     
@@ -65,5 +64,21 @@ class UserController extends Controller
         $em->persist($user);
         $em->flush();
         return $this->redirect($this->generateUrl("profile",array('id'=>$user->getId())));
+    }
+    
+    public function getRankingAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $tests = $em->getRepository('AppBundle:Ranking')->getTestRanking();
+        $votes = $em->getRepository('AppBundle:Ranking')->getVoteRanking();
+        $activity = $em->getRepository('AppBundle:Ranking')->getActivityRanking();
+        $general =  $em->getRepository('AppBundle:Ranking')->getGeneralRanking();
+        return $this->render('AppBundle:User:getRanking.html.twig', array(
+            'title' => 'Clasament',
+            'testRanking' => $tests,
+            'voteRanking' => $votes,
+            'activityRanking' => $activity,
+            'generalRanking' => $general
+        ));
     }
 }

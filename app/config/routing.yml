@@ -106,4 +106,8 @@ vote_answer:
   path: /answer/vote
   defaults: { _controller: AppBundle:ChallengeAnswer:vote }
 
+ranking:
+  path: /ranking
+  defaults: { _controller: AppBundle:User:getRanking }
+
 

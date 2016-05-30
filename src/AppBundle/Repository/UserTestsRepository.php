@@ -13,7 +13,9 @@ class UserTestsRepository extends \Doctrine\ORM\EntityRepository
     public function getTestsForUser($userId)
     {
         $qb = $this->createQueryBuilder('ut');
-        $qb->leftJoin(
+        $qb
+            ->select('t.id, ut.userScore,t.title, t.totalScore, ut.usedTime')
+            ->leftJoin(
                 'AppBundle\Entity\Test',
                 't',
                 'WITH',
