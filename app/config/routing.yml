@@ -22,6 +22,10 @@ home:
     path: /
     defaults: { _controller: AppBundle:Challenge:index}
 
+regulations:
+    path: /regulations
+    defaults: { _controller: AppBundle:Default:regulations}
+
 category_list:
     path: /categories
     defaults: { _controller: AppBundle:Category:listCategories }
@@ -37,6 +41,10 @@ question_edit:
 delete_question:
     path: /question/delete/{cid}/{id}
     defaults: { _controller: AppBundle:Question:delete }
+
+test_ranking:
+  path: /test/ranking/{id}
+  defaults: { _controller: AppBundle:Test:getRankingByTest }
 
 all_question_list:
     path: /questions
@@ -109,3 +117,9 @@ editProfile:
 vote_answer:
   path: /answer/vote
   defaults: { _controller: AppBundle:ChallengeAnswer:vote }
+
+ranking:
+  path: /ranking
+  defaults: { _controller: AppBundle:User:getRanking }
+
+

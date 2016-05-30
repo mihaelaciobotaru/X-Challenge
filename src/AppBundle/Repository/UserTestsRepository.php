@@ -13,7 +13,9 @@ class UserTestsRepository extends \Doctrine\ORM\EntityRepository
     public function getTestsForUser($userId)
     {
         $qb = $this->createQueryBuilder('ut');
-        $qb->leftJoin(
+        $qb
+            ->select('t.id, ut.userScore,t.title, t.totalScore, ut.usedTime')
+            ->leftJoin(
                 'AppBundle\Entity\Test',
                 't',
                 'WITH',
@@ -21,6 +23,24 @@ class UserTestsRepository extends \Doctrine\ORM\EntityRepository
             )
             ->where('ut.user = :user')
             ->setParameter('user', $userId)
+            ->orderBy('ut.userScore', 'DESC');
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function getUsersForTest($testId)
+    {
+        $qb = $this->createQueryBuilder('ut');
+        $qb
+            ->select('u.id, u.username, ut.userScore, ut.usedTime')
+            ->leftJoin(
+                'AppBundle\Entity\User',
+                'u',
+                'WITH',
+                'ut.user = u.id'
+            )
+            ->where('ut.test = :test')
+            ->setParameter('test', $testId)
             ->orderBy('ut.userScore', 'DESC');
 
         return $qb->getQuery()->getResult();

@@ -11,6 +11,7 @@
             {% for test in tests %}
                 <tr>
                     <th>{{ loop.index }}. {{ test.title }}</th>
+                    <td><a class="btn btn-primary" href="{{ path('test_ranking',{'id': test.id}) }}">Clasament</a></td>
                     {% if is_granted('ROLE_MASTER') or is_granted('ROLE_ADMIN') %}
                         <td><button onclick="showT({{ test.id }})" class="btn btn-primary ">Vizualizeaza</button></td>
                         <td><button onclick="deleteT({{ category.id }}, {{ test.id }})" class="btn btn-warning">Sterge</button></td>

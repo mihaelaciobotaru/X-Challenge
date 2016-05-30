@@ -42,7 +42,7 @@ class TestController extends Controller
             $category = $em->getRepository("AppBundle:Category")->find($cid);
             $test = new Test();
                 $error = null;
-
+            
 
             $form = $this->createForm(TestType::class, $test);
 
@@ -250,4 +250,15 @@ class TestController extends Controller
         return $this->redirect($this->generateUrl("home"));
     }
 
+    public function getRankingByTestAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+        $users = $em->getRepository('AppBundle:UserTests')->getUsersForTest($id);
+        return $this->render('AppBundle:Test:getRankingByTest.html.twig', array(
+            'title' => 'Clasament test',
+            'userRanking' => $users,
+            'test' => $test
+        ));
+    }
 }

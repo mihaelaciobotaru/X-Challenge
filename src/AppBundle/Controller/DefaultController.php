@@ -43,4 +43,9 @@ class DefaultController extends Controller
             'title' => $title, 'hasTests' => $hasTests, "form" => $form->createView()
         ]);
     }
+    
+    public function regulationsAction()
+    {
+        return $this->render('AppBundle::regulations.html.twig', ['title' => 'Regulament']);
+    }
 }

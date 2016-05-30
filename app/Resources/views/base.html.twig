@@ -40,16 +40,15 @@
                         <li><a href={{ path('all_question_list') }}>Intrebari</a></li>
                         {% endif %}
                         <li><a href={{ path("test_list_all") }}>Teste</a></li>
-                        <li><a href="#">Clasament</a></li>
+                        <li><a href={{ path("ranking") }}>Clasament</a></li>
                         {% if is_granted('ROLE_ADMIN') %}
                         <li><a href="{{ path("users") }}">Utilizatori</a></li>
                         {% endif %}
+                        <li><a href="{{ path("regulations") }}">Regulament</a></li>
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <li><a href="{{ path("users") }}">Dashboard</a></li>
+                        {% endif %}
                     </ul>
-                    <form role="search" class="navbar-form navbar-left">
-                        <div class="form-group">
-                            <input type="text" placeholder="Search" id="navbar-search-input" class="form-control">
-                        </div>
-                    </form>
                 </div>
                 <!-- /.navbar-collapse -->
                 <!-- Navbar Right Menu -->
@@ -88,6 +87,8 @@
                                         <span class="hidden-xs">Apprentice {{ app.user.username }}</span>
                                      {% elseif is_granted('ROLE_MASTER') %}
                                         <span class="hidden-xs">Master {{ app.user.username }}</span>
+                                    {% elseif is_granted('ROLE_ADMIN') %}
+                                        <span class="hidden-xs">Admin {{ app.user.username }}</span>
                                     {% endif %}
                                 {% endif %}
                             </a>

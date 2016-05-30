@@ -39,9 +39,9 @@
                                         {% if is_granted('ROLE_ADMIN') %}
                                             {% if user.type != 1 %}
                                                 {% if user.isActive == false %}
-                                                    <td><a  href="{{ path('manage_user_activation',{'id': user.id, 'isActive':'true'}) }}" class="btn btn-primary">Activeaza</a></td>
+                                                    <td><a  href="{{ path('manage_user_activation',{'id': user.id, 'isActive':1}) }}" class="btn btn-primary">Activeaza</a></td>
                                                 {% else %}
-                                                    <td><a href="{{ path('manage_user_activation', {'id': user.id, 'isActive':'false'}) }}" class="btn btn-danger">Dezactiveaza</a></td>
+                                                    <td><a href="{{ path('manage_user_activation', {'id': user.id, 'isActive':0}) }}" class="btn btn-danger">Dezactiveaza</a></td>
                                                 {% endif %}
                                                 {% if user.rank != null %}
                                                     {% if user.rank.testScores + user.rank.voteScores + user.rank.activityScores < 2000 %}

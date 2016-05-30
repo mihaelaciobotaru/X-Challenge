@@ -10,6 +10,7 @@
                     <td><strong>{{ loop.index }}. {{ test.title }} - {{ categories[test.category] }} </strong><br>
                         <small>{{ users[test.user.id] }}, {{ test.createdAt|date('Y-m-d') }}</small>
                     </td>
+                    <td><a class="btn btn-primary" href="{{ path('test_ranking',{'id': test.id}) }}">Clasament</a></td>
                     {% if is_granted('ROLE_MASTER') or is_granted('ROLE_ADMIN') %}
                         <td><button onclick="showT({{ test.id }})" class="btn btn-primary">Vizualizeaza</button></td>
                         <td><button onclick="deleteT({{ test.category }}, {{ test.id }})" class="btn btn-warning">Sterge</button></td>
@@ -17,6 +18,7 @@
                     {% if is_granted('ROLE_APPRENTICE') %}
                         <td><a class="btn btn-primary" href="{{ path('take_test', { 'tid': test.id }) }}">Rezolva</a></td>
                     {% endif %}
+
                 </tr>
             {% endfor %}
         </table>

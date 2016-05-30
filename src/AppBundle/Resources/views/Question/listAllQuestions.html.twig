@@ -1,11 +1,17 @@
 {% extends "::base.html.twig" %}
 {% block content %}
     <table class="table table-hover category-table">
+        {% set clasa = "" %}
         {% for quest in questions %}
-            <tr>
+            {% if quest.test == null%}
+                {% set clasa = "" %}
+                {% else %}
+                {% set clasa = "disabled"%}
+            {% endif %}
+            <tr  class="{{ clasa }}">
                 <th>{{ loop.index }}. {{ quest.text }}</th>
                 <td><button onclick= "editQ({{ quest.category.id }}, {{ quest.id }})"class="btn btn-primary">Editeaza</button></td>
-                <td><button onclick= "deleteQ(-1,{{quest.id}})" class="btn btn-warning">Sterge</button></td>
+                <td><button onclick= "deleteQ(-1,{{quest.id}})" class="btn btn-warning" + {{ clasa }}>Sterge</button></td>
             </tr>
         {% endfor %}
     </table>
