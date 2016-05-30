@@ -22,6 +22,10 @@ home:
     path: /
     defaults: { _controller: AppBundle:Challenge:index}
 
+regulations:
+    path: /regulations
+    defaults: { _controller: AppBundle:Default:regulations}
+
 category_list:
     path: /categories
     defaults: { _controller: AppBundle:Category:listCategories }
@@ -101,3 +105,5 @@ editProfile:
 vote_answer:
   path: /answer/vote
   defaults: { _controller: AppBundle:ChallengeAnswer:vote }
+
+

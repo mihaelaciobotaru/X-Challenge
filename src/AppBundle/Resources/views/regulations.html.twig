@@ -1,0 +1,69 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<div class="box box-danger">
+    <div class="box-body">
+        <div>
+    <p>Clasamentul general este calculat pe baza insumarii a 3 tipuri de puncte: de <b class="text-danger">ACTIVITATE</b>, din <b class="text-danger">TESTE</b> si din <b class="text-danger">VOTURI</b>.</p>
+
+    <p>Orice utilizator Apprentice, la momentul inregistrarii pe X-Challenge detine: 0p Activitate, 0p Teste, 0p Voturi</p>
+
+    Fiecare dintre cele 3 categorii de puncte se acorda pe baza unor reguli.
+    </div>
+
+    <div>
+        <div>
+            <h4>Punctele din <span class="text-danger">TESTE</span></h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Se acorda un numar de puncte egal cu diferenta dintre scorul total al testului si scorul obtinut de utilizator la test.</li>
+                </ul>
+
+            Atentie: un test poate fi rezolvat o singura data!
+            <hr style="color: #ddd"/>
+
+        </div>
+        <div>
+            <h4>Punctele din <span class="text-danger">ACTIVITATE</span></h4>
+            <ul class="list-group">
+                <li class="list-group-item">Se acorda 1p Activitate pentru rezolvarea unui test.</li>
+                <li class="list-group-item">Se acorda 1p Activitate pentru raspunsul la o provocare.</li>
+            </ul>
+            Atentie: se poate raspunde la o provocare doar in momentul in care ai cel putin un test rezolvat.
+            <hr style="color: #ddd"/>
+        </div>
+        <div>
+            <h4>Punctele din <span class="text-danger">VOTURI</span></h4>
+            <ul class="list-group">
+                <li class="list-group-item">Se acorda 1p Voturi pentru fiecare up-vote primit de la alt utilizator Apprentice. Votul poate fi retras, ceea ce duce la pierderea unui punct.
+                </li>
+                <li class="list-group-item">Se acorda 2p Voturi pentru fiecare up-vote primit de la un utilizator Master. Votul poate fi retras, ceea ce duce la pierderea a 2 puncte.
+                </li>
+                <li class="list-group-item">Se pierde 1p Voturi pentru fiecare down-vote primit de la alt utilizator Apprentice.</li>
+                <li class="list-group-item">Se pierd 2p Voturi pentru fiecare down-vote primit de la un utilizator Master.</li>
+            </ul>
+            Atentie: utilizatorii Apprentice pot deveni utilizatori Master. Daca ai primit 1p Voturi de la un Apprentice care ulterior a devenit Master,
+            <hr style="color: #ddd"/>
+
+        </div>
+    </div>
+     <div>
+    Utilizatorii Apprentice pot deveni utilizatori Master doar daca se afla in top 3 in clasamentul general, au cel putin 100p Activitate
+    si 2000p insumate, la acordului administratorilor si/sau utilizatorilor Master.
+    </div>
+        <br/>
+    <div>
+    Punctele acumulate pe platforma X-Challenge pot sa iti aduca anumite beneficii la materiile studiate la Facultatea de Matematica si Informatica:<br/>
+    burse, punctaj laborator, punctaj seminar, punctaj examen, mobilitati Erasmus, insa doar la propunerea domnilor profesori.
+    </div>
+        <br/>
+    <div>
+        <p>Iti dorim mult succes in acumularea a cat mai multe puncte!</p>
+    </div>
+        <br/>
+        <div>
+        <p>Multumim,</p>
+        <p>Echipa X-Challenge</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
