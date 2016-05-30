@@ -15,7 +15,7 @@
                         <td><button onclick="deleteT({{ test.category }}, {{ test.id }})" class="btn btn-warning">Sterge</button></td>
                     {% endif %}
                     {% if is_granted('ROLE_APPRENTICE') %}
-                        <td><button class="btn btn-primary">Rezolva</button></td>
+                        <td><a class="btn btn-primary" href="{{ path('take_test', { 'tid': test.id }) }}">Rezolva</a></td>
                     {% endif %}
                 </tr>
             {% endfor %}

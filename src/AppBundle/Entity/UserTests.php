@@ -67,6 +67,7 @@ class UserTests
     public function __construct()
     {
         $this->createdAt = new \DateTime("now");
+        $this->solvedDate = new \DateTime("now");
     }
 
     /**

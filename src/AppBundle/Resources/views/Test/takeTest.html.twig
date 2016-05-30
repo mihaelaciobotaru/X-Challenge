@@ -1,0 +1,60 @@
+{% extends "::base.html.twig" %}
+
+{% block content %}
+    <div class="col-md-9">
+        <!-- general form elements -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ test.title }} - {{ categories[test.category] }}</h3>
+                <p><small>{{ users[test.user.id] }}, {{ test.createdAt|date('Y-m-d') }}</small></p>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form id="takeTest" method="POST" action="{{ path('solve_test', { 'tid': test.id }) }}">
+            <div class="box-body">
+                <table>
+                {% for quest in questions %}
+                   <tr>
+                       <th>&emsp;<label class="taketestlabels" id="take_{{ loop.index }}">{{ loop.index }}.{{ quest.text }}</label></th>
+                   </tr>
+                    {% for ans,val in answers[quest.id] %}
+                        <tr>
+                            <td>&emsp;&emsp;
+                                <input type="hidden" name="quest_{{ quest.id }}_check_{{ loop.index }}" class="check" value="0">
+                                <input type="hidden" name="quest_{{ quest.id }}_answer_{{ loop.index }}" value="{{ ans }}">
+                                <input type="checkbox" name="quest_{{ quest.id }}_answercheck_{{ loop.index }}" value="{{ ans }}" class="answer">
+                                &emsp;{{ ans }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+
+                {% endfor %}
+                </table>
+            </div>
+            <div class="box-footer">
+                <div class="col-sm-12">
+                    <button class="btn btn-primary col-sm-12" type="submit">Submit</button>
+                </div>
+            </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+{% block javascript %}
+$(document).ready(function(){
+    $(".answer").change(function() {
+        var name = this.name;
+        var check = name.replace("answercheck", "check");
+        if (this.checked) {
+            $("input[name='"+check+"'").val(1);
+        } else {
+            $("input[name="+check+"").val(0);
+        }
+    });
+});
+
+{% endblock %}
+
+
+

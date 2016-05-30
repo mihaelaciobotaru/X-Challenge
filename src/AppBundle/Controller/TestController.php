@@ -10,6 +10,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Form\TestType;
 use Doctrine\ORM;
+use AppBundle\Entity\UserTests;
+use AppBundle\Entity\Ranking;
 
 class TestController extends Controller
 {
@@ -173,4 +175,79 @@ class TestController extends Controller
         );
 
     }
+
+    public function takeTestAction(Request $request, $tid){
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($tid);
+        $title = $test->getTitle();
+        $questions = $this->getDoctrine()->getRepository('AppBundle:Question')->findBy(array("test" => $tid));
+        $allquestions = array();
+        $answers = array();
+        foreach($questions as $q){
+            $answers[$q->getID()] = json_decode($q->getAnswerList(), true);
+            $allquestions[$q->getID()] = $q->getText();
+        }
+        $category = $this->getDoctrine()->getRepository('AppBundle:Category')->findAll();
+        $categno = array();
+        foreach($category as $c){
+            $categno[$c->getID()] = $c->getName();
+        }
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findAll();
+        $userno = array();
+        foreach($users as $u){
+            $username = $u->getFirstName()." ".$u->getLastName();
+            $userno[$u->getID()] = $username;
+        }
+        
+        return $this->render('AppBundle:Test:takeTest.html.twig',
+            array( 'questions' => $questions, 'test' => $test, 'answers' => $answers, 'title' => $title, 'categories' => $categno, 'users' => $userno
+            ));
+
+    }
+
+    public function solveTestAction(Request $request, $tid)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $test = $em->getRepository("AppBundle:Test")->find($tid);
+
+        $questions = $em->getRepository("AppBundle:Question")->findBy(array("test" => $test));
+        $score = 0;
+        foreach ($questions as $q) {
+            $answers = array();
+            $i = 1;
+            for($i=1 ; $i<=5; $i++) {
+                if (isset($_POST["quest_".$q->getId()."_answer_".$i]) && $_POST["quest_".$q->getId()."_answer_".$i] != null) {
+                    if ($_POST["quest_".$q->getId()."_check_".$i] == "1") {
+                        $answers[$_POST["quest_".$q->getId()."_answer_".$i]] = true;
+                    } else {
+                        $answers[$_POST["quest_".$q->getId()."_answer_".$i]] = false;
+                    }
+                } else {
+                    $i = 6;
+                }
+            }
+            if ($q->getAnswerList() == json_encode($answers)) {
+                $score += $q->getScore();
+            }
+        }
+        $us = new UserTests();
+        $us->setUsedTime(5);
+        $us->setUserScore($score);
+        $us->setUser($this->getUser());
+        $us->setTest($test);
+        $em->persist($us);
+
+        $rank = $em->getRepository("AppBundle:Ranking")->findOneBy(array("user" => $this->getUser()));
+        if ($rank == null) {
+            $rank = new Rankig();
+            $rank->setUser($this->getUser());
+        }
+        $rank->setTestScores($score);
+        $em->persist($rank);
+        $em->flush();
+
+        $this->get('session')->getFlashbag()->add('success', 'Testul a fost completat cu succes');
+        return $this->redirect($this->generateUrl("home"));
+    }
+
 }

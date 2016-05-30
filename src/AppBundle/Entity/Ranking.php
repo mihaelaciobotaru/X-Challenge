@@ -75,7 +75,7 @@ class Ranking
      */
     public function setTestScores($testScores)
     {
-        $this->testScores = $testScores;
+        $this->testScores += $testScores;
 
         return $this;
     }

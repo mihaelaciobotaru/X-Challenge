@@ -91,7 +91,6 @@
                                     {% endif %}
                                 {% endif %}
                             </a>
-                            <!-- Menu Footer-->
                         {% if is_granted('ROLE_USER') %}
                             <li><a href="{{ path("profile", {'id' : app.user.id}) }}"><i class="fa fa-user"> </i> Profile</a></li>
                             <li><a href= "{{ path("security_logout") }}"><i class="fa fa-sign-out"></i> Sign out</a></li>

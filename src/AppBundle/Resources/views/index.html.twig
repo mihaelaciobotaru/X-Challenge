@@ -9,6 +9,9 @@
         {% set upscore = 1 %}
         {% set downscore = -1 %}
     {% endif %}
+    {% if app.session.flashbag.has('success') %}
+        {{ toastr("success", "Test", app.session.flashbag.get('success').0) }}
+    {% endif %}
     <div class="row">
         <div class="row">
             <div class="col-md-12">
@@ -16,17 +19,19 @@
                     <li class="time-label">
                         <span class="bg-aqua">Today</span>
                     </li>
-                    <li id="challenge_add">
-                        <i class="fa fa-envelope bg-blue"></i>
-                        <div class="timeline-item">
-                            <h3 id="challenge_title" class="timeline-header editable" name="title" contenteditable="true" data-placeholder="Title goes here.."></h3>
-                            <div id="challenge_content" class="timeline-body editable" name="content" contenteditable="true"  data-placeholder="Content goes here..">
+                    {% if is_granted("ROLE_MASTER") %}
+                        <li id="challenge_add">
+                            <i class="fa fa-envelope bg-blue"></i>
+                            <div class="timeline-item">
+                                <h3 id="challenge_title" class="timeline-header editable" name="title" contenteditable="true" data-placeholder="Title goes here.."></h3>
+                                <div id="challenge_content" class="timeline-body editable" name="content" contenteditable="true"  data-placeholder="Content goes here..">
+                                </div>
+                                <div class="timeline-footer">
+                                    <a class="btn btn-primary btn-sm" onclick="addChallenge()">Post</a>
+                                </div>
                             </div>
-                            <div class="timeline-footer">
-                                <a class="btn btn-primary btn-sm" onclick="addChallenge()">Post</a>
-                            </div>
-                        </div>
-                    </li>
+                        </li>
+                    {% endif %}
                     {% if tDayChallenges is not empty %}
                         {% for challenge in tDayChallenges %}
                             <li>
