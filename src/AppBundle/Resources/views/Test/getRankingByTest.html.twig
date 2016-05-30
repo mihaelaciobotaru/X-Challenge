@@ -1,0 +1,23 @@
+{% extends "::base.html.twig" %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-warning">
+                <div class="box-header with-border">
+                <b>{{ test.title }}</b>, timp disponibil: {{ test.time }} minute, scor: {{ test.totalScore }} puncte, numar de intrebari: {{ test.NoOfQuestions }}
+                </div>
+                <div class="box-body">
+                    <ul class="list-group">
+                    {%if userRanking %}
+                        {% for user in userRanking  %}
+                            <li class="list-group-item col-md-12"> <span class="col-md-3">{{ loop.index }}. {{ user["username"] }}</span><span class="col-md-3"><b> {{ user["userScore"] }} puncte </b> | {{user["usedTime"]}} minute</span>
+                        {% endfor %}
+                        {% else %}
+                          <li class="list-group-item">Niciun utilizator nu a rezolvat acest test inca.</li>
+                    {% endif %}
+                    </ul>
+                </div>
+                <!-- /.box-header -->
+            </div>
+        </div>
+{% endblock %}

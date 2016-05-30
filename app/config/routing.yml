@@ -42,6 +42,10 @@ delete_question:
     path: /question/delete/{cid}/{id}
     defaults: { _controller: AppBundle:Question:delete }
 
+test_ranking:
+  path: /test/ranking/{id}
+  defaults: { _controller: AppBundle:Test:getRankingByTest }
+
 all_question_list:
     path: /questions
     defaults: { _controller: AppBundle:Question:listAllQuestions }

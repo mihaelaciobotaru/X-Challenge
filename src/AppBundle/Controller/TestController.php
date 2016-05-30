@@ -173,4 +173,17 @@ class TestController extends Controller
         );
 
     }
+    
+    public function getRankingByTestAction($id)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+        $users = $em->getRepository('AppBundle:UserTests')->getUsersForTest($id);
+        return $this->render('AppBundle:Test:getRankingByTest.html.twig', array(
+            'title' => 'Clasament test',
+            'userRanking' => $users,
+            'test' => $test
+        ));
+    }
+        
 }
