@@ -38,7 +38,6 @@ class AdminController extends Controller
         if (!$sc->isGranted("ROLE_ADMIN")) {
             throw new AccessDeniedException();
         }
-
         $em = $this->getDoctrine()->getManager();
         $user = $em->getRepository("AppBundle:User")->find($id);
 

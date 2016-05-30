@@ -8,10 +8,15 @@
     <a class="btn btn-primary pull-right" href="{{ path('question_edit', {'cid':category.id, 'id': -1}) }}">Adauga o intrebare</a>
     <table class="table table-hover category-table">
         {% for quest in questions %}
+            {% if quest.test == null%}
+                {% set clasa = "" %}
+            {% else %}
+                {% set clasa = "disabled"%}
+            {% endif %}
             <tr>
                 <th>{{ loop.index }}. {{ quest.text }}</th>
                 <td><button onclick="editQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-primary">Editeaza</button</td>
-                <td><button onclick="deleteQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-warning">Sterge</button></td>
+                <td><button onclick="deleteQ({{ quest.category.id }}, {{ quest.id }})" class="btn btn-warning" + {{ clasa }}>Sterge</button></td>
             </tr>
         {% endfor %}
     </table>
