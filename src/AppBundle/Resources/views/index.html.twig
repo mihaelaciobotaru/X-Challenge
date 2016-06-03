@@ -9,6 +9,16 @@
         {% set upscore = 1 %}
         {% set downscore = -1 %}
     {% endif %}
+    {% if app.user.type == 3 %}
+        {% if app.user.solvedTests is not empty %}
+            {% set allowed = 1 %}
+        {% else %}
+            {% set allowed = 0 %}
+        {% endif %}
+    {% else %}
+        {% set allowed = 1 %}
+    {% endif %}
+
     {% if app.session.flashbag.has('success') %}
         {{ toastr("success", "Test", app.session.flashbag.get('success').0) }}
     {% endif %}
@@ -75,7 +85,7 @@
                                         <hr/>
                                     {% endfor %}
                                     <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-xs" onclick="addAnswer($(this))">Add answer</a>
+                                        <a class="btn btn-primary btn-xs" onclick="addAnswer($(this), {{ allowed }})">Add Answer</a>
                                         {% if challenge.challengeAnswers is not empty %}
                                             <a class="btn btn-warning btn-xs" href="{{ path('view_answers', {'id': challenge.id}) }}">View answers</a>
                                         {% else %}
@@ -104,7 +114,7 @@
                                     <div class="timeline-body editable hidden" contenteditable="true" data-placeholder="Answer goes here..">
                                     </div>
                                     <div class="timeline-footer">
-                                        <a class="btn btn-primary btn-xs" onclick="addAnswer($(this))">Add answer</a>
+                                        <a class="btn btn-primary btn-xs" onclick="addAnswer($(this), {{ allowed }})">Add answer</a>
                                         {% if challenge.challengeAnswers is not empty %}
                                             <a class="btn btn-warning btn-xs" href="{{ path('view_answers', {'id': challenge.id}) }}">View answers</a>
                                         {% else %}
@@ -230,7 +240,7 @@
                             {
                                 var a = $("<a>");
                                 a.addClass("btn btn-primary btn-xs");
-                                a.text("Add answer");
+                                a.text("Adauga raspuns");
                             }
                             div_footer.append(a);
                         }
@@ -252,33 +262,37 @@
         }
     }
 
-    function addAnswer(obj)
+    function addAnswer(obj, allowed)
     {
-        var timeline = obj.parent().parent();
-        var content = timeline.find(".timeline-body.editable");
-        var challengeId = timeline.attr("id").split("_")[1];
-        if (content.hasClass("hidden")) {
+        if (allowed == false) {
+            toastr["error"]("Va rugam rezolvati cel putin un test inainte de a raspunde la o provocare", "Adaugare raspuns");
+        } else {
+            var timeline = obj.parent().parent();
+            var content = timeline.find(".timeline-body.editable");
+            var challengeId = timeline.attr("id").split("_")[1];
+            if (content.hasClass("hidden")) {
             content.removeClass("hidden");
             obj.removeClass("btn-primary").addClass("btn-success");
             obj.text("Submit");
-        } else {
+            } else {
             if (content.text() != "") {
-                $.ajax({
-                    url: "{{ path('add_answer') }}",
-                    method: "POST",
-                    data: { challengeId: challengeId, answerContent: content.text() },
-                    success: function(data) {
-                        if (data["error"] == false) {
-                            toastr["success"]("Raspunsul a fost adaugat cu succes", "Adaugare raspuns");
-                            content.text("");
-                            obj.removeClass("btn-success").addClass("btn-primary");
-                            obj.text("Add answer");
-                            timeline.find("#view_answers").removeClass("hidden");
-                        } else {
-                            toastr["error"]("A aparut o eroare", "Adaugare raspuns");
-                        }
-                    }
-                });
+            $.ajax({
+            url: "{{ path('add_answer') }}",
+            method: "POST",
+            data: { challengeId: challengeId, answerContent: content.text() },
+            success: function(data) {
+            if (data["error"] == false) {
+            toastr["success"]("Raspunsul a fost adaugat cu succes", "Adaugare raspuns");
+            content.text("");
+            obj.removeClass("btn-success").addClass("btn-primary");
+            obj.text("Adauga raspuns");
+            timeline.find("#view_answers").removeClass("hidden");
+            } else {
+            toastr["error"]("A aparut o eroare", "Adaugare raspuns");
+            }
+            }
+            });
+            }
             }
         }
     }
